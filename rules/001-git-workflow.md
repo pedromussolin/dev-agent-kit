@@ -1,4 +1,4 @@
-# Regras Obrigatórias de Git e GitHub (Polígono)
+# Regras Obrigatórias de Git e GitHub
 
 ## Ambientes e Branches
 - **sandbox** → Branch `sandbox` (Homologação interna)
