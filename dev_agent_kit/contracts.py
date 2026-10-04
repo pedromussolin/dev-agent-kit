@@ -20,14 +20,20 @@ class ExecutionError(RuntimeError):
 
 def fingerprint(value: object) -> str:
     """Hash normalized configuration or evidence without depending on key order."""
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def validate(value: object, schema: dict, category: str = "invalid_result") -> None:
     """Use the shared JSON Schema rather than treating model text as a contract."""
-    errors = sorted(Draft202012Validator(schema).iter_errors(value), key=lambda error: str(error.path))
+    errors = sorted(
+        Draft202012Validator(schema).iter_errors(value), key=lambda error: str(error.path)
+    )
     if errors:
-        raise ExecutionError(category, f"Schema validation failed at {list(errors[0].path)}: {errors[0].validator}")
+        raise ExecutionError(
+            category, f"Schema validation failed at {list(errors[0].path)}: {errors[0].validator}"
+        )
 
 
 def local_path(root: Path, relative: str) -> Path:
@@ -56,7 +62,13 @@ def native_output_schema(schema: dict) -> dict:
                 value["enum"] = [value.pop("const")]
             if "enum" in value and "type" not in value:
                 first = value["enum"][0]
-                value["type"] = "boolean" if isinstance(first, bool) else "integer" if isinstance(first, int) else "string"
+                value["type"] = (
+                    "boolean"
+                    if isinstance(first, bool)
+                    else "integer"
+                    if isinstance(first, int)
+                    else "string"
+                )
             if value.get("type") == "object" and "properties" in value:
                 value["required"] = list(value["properties"])
                 value["additionalProperties"] = False
@@ -75,34 +87,50 @@ def normalize_task(value: dict, kit_root: Path) -> dict:
     task = copy.deepcopy(value)
     schema = json.loads((kit_root / "contracts/execution-task.schema.json").read_text())
     validate(task, schema, "invalid_task")
-    for key, definition in schema['properties']['limits']['properties'].items():
-        if 'default' in definition:
-            task['limits'].setdefault(key, definition['default'])
-    task.setdefault('workflow', [
-        {'name': 'implementation', 'role_id': 'developer', 'kind': 'implement'},
-        {'name': 'qa', 'role_id': 'qa-engineer', 'kind': 'verify'},
-        {'name': 'review', 'role_id': 'technical-reviewer', 'kind': 'verify'},
-    ])
-    registered = {role['id'] for role in json.loads((kit_root / 'agents/catalog.json').read_text())['roles']}
-    steps = task['workflow']
-    names = [step['name'] for step in steps]
-    if len(set(names)) != len(names) or any(name in {'checks', 'delivery'} for name in names):
-        raise ExecutionError('invalid_task', 'Workflow stage names must be unique and nonreserved')
-    if any(step['role_id'] not in registered for step in steps):
-        raise ExecutionError('unknown_role', 'Workflow contains an unregistered role')
-    kinds = [step['kind'] for step in steps]
-    if kinds.count('implement') != 1:
-        raise ExecutionError('invalid_task', 'Workflow requires exactly one implementation stage')
-    position = kinds.index('implement')
-    if any(kind != 'plan' for kind in kinds[:position]) or any(kind != 'verify' for kind in kinds[position + 1:]):
-        raise ExecutionError('invalid_task', 'Planning precedes implementation; verification follows it')
-    if not {'qa-engineer', 'technical-reviewer'}.issubset({step['role_id'] for step in steps[position + 1:]}):
-        raise ExecutionError('invalid_task', 'QA and technical review are required delivery gates')
-    if task['policy']['delivery'] != 'diff':
-        if 'delivery' not in task or (task['policy']['delivery'] == 'deploy' and 'deployment' not in task['delivery']):
-            raise ExecutionError('invalid_task', 'Activated delivery requires repository/issue/checks and deployment configuration')
-        if task['policy']['include_working_tree']:
-            raise ExecutionError('invalid_task', 'Remote delivery requires clean committed inputs')
+    for key, definition in schema["properties"]["limits"]["properties"].items():
+        if "default" in definition:
+            task["limits"].setdefault(key, definition["default"])
+    task.setdefault(
+        "workflow",
+        [
+            {"name": "implementation", "role_id": "developer", "kind": "implement"},
+            {"name": "qa", "role_id": "qa-engineer", "kind": "verify"},
+            {"name": "review", "role_id": "technical-reviewer", "kind": "verify"},
+        ],
+    )
+    registered = {
+        role["id"] for role in json.loads((kit_root / "agents/catalog.json").read_text())["roles"]
+    }
+    steps = task["workflow"]
+    names = [step["name"] for step in steps]
+    if len(set(names)) != len(names) or any(name in {"checks", "delivery"} for name in names):
+        raise ExecutionError("invalid_task", "Workflow stage names must be unique and nonreserved")
+    if any(step["role_id"] not in registered for step in steps):
+        raise ExecutionError("unknown_role", "Workflow contains an unregistered role")
+    kinds = [step["kind"] for step in steps]
+    if kinds.count("implement") != 1:
+        raise ExecutionError("invalid_task", "Workflow requires exactly one implementation stage")
+    position = kinds.index("implement")
+    if any(kind != "plan" for kind in kinds[:position]) or any(
+        kind != "verify" for kind in kinds[position + 1 :]
+    ):
+        raise ExecutionError(
+            "invalid_task", "Planning precedes implementation; verification follows it"
+        )
+    if not {"qa-engineer", "technical-reviewer"}.issubset(
+        {step["role_id"] for step in steps[position + 1 :]}
+    ):
+        raise ExecutionError("invalid_task", "QA and technical review are required delivery gates")
+    if task["policy"]["delivery"] != "diff":
+        if "delivery" not in task or (
+            task["policy"]["delivery"] == "deploy" and "deployment" not in task["delivery"]
+        ):
+            raise ExecutionError(
+                "invalid_task",
+                "Activated delivery requires repository/issue/checks and deployment configuration",
+            )
+        if task["policy"]["include_working_tree"]:
+            raise ExecutionError("invalid_task", "Remote delivery requires clean committed inputs")
     repository = Path(task["repository"]).expanduser().resolve()
     if not repository.is_dir():
         raise ExecutionError("invalid_task", "Repository directory is unavailable")
@@ -111,7 +139,7 @@ def normalize_task(value: dict, kit_root: Path) -> dict:
         local_path(repository, component["working_directory"])
     for pattern in task["policy"]["allowed_paths"]:
         local_path(repository, pattern)
-        if pattern in {".", "**", "*", '.git'} or pattern.startswith(".git/"):
+        if pattern in {".", "**", "*", ".git"} or pattern.startswith(".git/"):
             raise ExecutionError("invalid_task", "Declare a bounded change scope")
     for relative in task["context_files"]:
         local_path(repository, relative)

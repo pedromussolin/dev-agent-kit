@@ -86,5 +86,19 @@
       "OpenTofu"
     ]
   },
-  "enforcement_status": "instruction_and_packaging_validation_with_scoped_executor_controls_financial_enforcement_pending"
+  "enforcement_status": "instruction_and_packaging_validation_with_scoped_executor_controls_financial_enforcement_pending",
+  "code_quality": {
+    "use_project_declared_tools": true,
+    "completion_requires_observed_checks": true,
+    "verification_must_not_reformat_source": true,
+    "preserve_generated_and_vendored_ownership": true
+  },
+  "application_contracts": {
+    "api_requires_mcp_adapter": true,
+    "share_domain_or_authenticated_api_contract": true,
+    "typed_persistence_ports": true,
+    "parameterize_external_sql_values": true,
+    "additional_storage_requires_justification": true,
+    "personal_context_requires_explicit_session_scope": true
+  }
 }

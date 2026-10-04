@@ -1,7 +1,7 @@
 """Check the real executor onboarding deliverable's minimum command coverage."""
 
-from pathlib import Path
 import re
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 for language in ("en", "pt-br"):

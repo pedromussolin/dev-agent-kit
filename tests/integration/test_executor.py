@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
-import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 
 from dev_agent_kit.adapters import AgentResponse
-from dev_agent_kit.contracts import ExecutionError, fingerprint
+from dev_agent_kit.contracts import ExecutionError
 from dev_agent_kit.executor import Executor
 from dev_agent_kit.processes import execute
 from dev_agent_kit.workspace import current_revision, git
@@ -35,10 +33,25 @@ class ControlledAgent:
             self.implementations += 1
             value = 0 if self.failure == "repair" and self.implementations == 1 else 42
             (assignment.workspace / "feature.py").write_text(f"VALUE = {value}\n")
-        result = {"schema_version": 1, "task_id": assignment.task["task_id"], "role_id": assignment.role_id,
-                  "status": "completed", "summary": "Controlled test assignment", "artifacts": [],
-                  "evidence": [{"claim": "Check evidence inspected", "reference": "executor://checks", "result": "observed"}],
-                  "blocking_findings": [], "open_questions": [], "revision": assignment.context["current_revision"], "decisions": []}
+        result = {
+            "schema_version": 1,
+            "task_id": assignment.task["task_id"],
+            "role_id": assignment.role_id,
+            "status": "completed",
+            "summary": "Controlled test assignment",
+            "artifacts": [],
+            "evidence": [
+                {
+                    "claim": "Check evidence inspected",
+                    "reference": "executor://checks",
+                    "result": "observed",
+                }
+            ],
+            "blocking_findings": [],
+            "open_questions": [],
+            "revision": assignment.context["current_revision"],
+            "decisions": [],
+        }
         if self.failure == "invalid":
             del result["status"]
         if self.failure == "wrong_task":
@@ -49,7 +62,11 @@ class ControlledAgent:
             (assignment.workspace / "feature.py").write_text("VALUE = 0\n")
         if self.failure == "review" and assignment.role_id == "technical-reviewer":
             result["blocking_findings"] = ["Controlled blocking finding"]
-        return AgentResponse(result, {"input_tokens": 10, "output_tokens": 5}, {"provider": "controlled-test-adapter"})
+        return AgentResponse(
+            result,
+            {"input_tokens": 10, "output_tokens": 5},
+            {"provider": "controlled-test-adapter"},
+        )
 
 
 class ExecutorFixture:
@@ -65,20 +82,51 @@ class ExecutorFixture:
         git(self.repository, "config", "user.email", "fixture@example.invalid")
         (self.repository / "README.md").write_text("Fixture project\n")
         (self.repository / ".gitignore").write_text("__pycache__/\n.env\n")
-        (self.repository / "verify.py").write_text("from feature import VALUE\nassert VALUE == 42\n")
+        (self.repository / "verify.py").write_text(
+            "from feature import VALUE\nassert VALUE == 42\n"
+        )
         git(self.repository, "add", ".")
         git(self.repository, "commit", "-m", "Initialize isolated test fixture")
-        self.task = {"schema_version": 1, "task_id": "local-test-task", "project_id": "fixture", "repository": str(self.repository),
-                     "base_revision": git(self.repository, "rev-parse", "HEAD").strip(), "goal": "Implement a checked feature",
-                     "acceptance_criteria": ["Feature exposes the accepted value"], "context_files": ["README.md"],
-                     "components": [{"name": "python-component", "language": "python", "working_directory": ".",
-                                     "checks": [{"name": "acceptance", "argv": [sys.executable, "verify.py"], "timeout_seconds": 5}]}],
-                     "agent": {"adapter": "codex-cli", "auth_mode": "chatgpt"},
-                     "limits": {"max_attempts": 1, "max_agent_calls": 6, "agent_timeout_seconds": 10, "max_run_seconds": 60,
-                                "max_context_characters": 50000},
-                     "policy": {"include_working_tree": True, "delivery": "diff", "allowed_paths": ["feature.py"],
-                                "authorization_reference": "Isolated integration-test fixture", "ai_spending": "existing_chatgpt_account",
-                                "infrastructure_monthly_cap_brl": 100}}
+        self.task = {
+            "schema_version": 1,
+            "task_id": "local-test-task",
+            "project_id": "fixture",
+            "repository": str(self.repository),
+            "base_revision": git(self.repository, "rev-parse", "HEAD").strip(),
+            "goal": "Implement a checked feature",
+            "acceptance_criteria": ["Feature exposes the accepted value"],
+            "context_files": ["README.md"],
+            "components": [
+                {
+                    "name": "python-component",
+                    "language": "python",
+                    "working_directory": ".",
+                    "checks": [
+                        {
+                            "name": "acceptance",
+                            "argv": [sys.executable, "verify.py"],
+                            "timeout_seconds": 5,
+                        }
+                    ],
+                }
+            ],
+            "agent": {"adapter": "codex-cli", "auth_mode": "chatgpt"},
+            "limits": {
+                "max_attempts": 1,
+                "max_agent_calls": 6,
+                "agent_timeout_seconds": 10,
+                "max_run_seconds": 60,
+                "max_context_characters": 50000,
+            },
+            "policy": {
+                "include_working_tree": True,
+                "delivery": "diff",
+                "allowed_paths": ["feature.py"],
+                "authorization_reference": "Isolated integration-test fixture",
+                "ai_spending": "existing_chatgpt_account",
+                "infrastructure_monthly_cap_brl": 100,
+            },
+        }
         self.executors = []
 
     def tearDown(self):
@@ -91,14 +139,15 @@ class ExecutorFixture:
         self.executors.append(executor)
         return executor
 
+
 class ExecutorIntegrationTests(ExecutorFixture, unittest.TestCase):
     """Verify observable failures and recovery rather than matching prompt wording."""
 
     def test_missing_absolute_executable_blocks_before_model_call(self):
-        self.task['components'][0]['checks'][0]['argv'] = [str(self.root / 'missing-executable')]
+        self.task["components"][0]["checks"][0]["argv"] = [str(self.root / "missing-executable")]
         adapter = ControlledAgent()
         result = self.executor(adapter).start(self.task)
-        self.assertEqual(result['error']['category'], 'tool_unavailable')
+        self.assertEqual(result["error"]["category"], "tool_unavailable")
         self.assertEqual(adapter.calls, [])
 
     def test_success_preserves_source_and_ignored_credentials(self):
@@ -110,13 +159,19 @@ class ExecutorIntegrationTests(ExecutorFixture, unittest.TestCase):
         self.assertEqual(report["status"], "succeeded", report["error"])
         self.assertEqual(adapter.calls, ["developer", "qa-engineer", "technical-reviewer"])
         self.assertFalse((self.repository / "feature.py").exists())
-        self.assertEqual((Path(report["workspace"]) / "README.md").read_text(), "Authorized uncommitted input\n")
+        self.assertEqual(
+            (Path(report["workspace"]) / "README.md").read_text(), "Authorized uncommitted input\n"
+        )
         self.assertFalse((Path(report["workspace"]) / ".env").exists())
         self.assertTrue(report["evidence_current"])
         self.assertIn("VALUE = 42", Path(report["delivery"]["patch"]).read_text())
 
     def test_failed_real_check_prevents_qa_and_completion(self):
-        self.task["components"][0]["checks"][0]["argv"] = [sys.executable, "-c", "raise SystemExit(7)"]
+        self.task["components"][0]["checks"][0]["argv"] = [
+            sys.executable,
+            "-c",
+            "raise SystemExit(7)",
+        ]
         adapter = ControlledAgent()
         report = self.executor(adapter).start(self.task)
         self.assertEqual(report["status"], "failed")
@@ -155,23 +210,35 @@ class ExecutorIntegrationTests(ExecutorFixture, unittest.TestCase):
         report = self.executor(ControlledAgent("review")).start(self.task)
         self.assertEqual(report["status"], "failed")
         review = next(stage for stage in report["stages"] if stage["name"] == "review")
-        self.assertEqual(review["result"]["result"]["blocking_findings"], ["Controlled blocking finding"])
+        self.assertEqual(
+            review["result"]["result"]["blocking_findings"], ["Controlled blocking finding"]
+        )
 
     def test_missing_component_tool_blocks_before_model_call(self):
         self.task["components"][0].update(name="go-component", language="go")
-        self.task["components"][0]["checks"][0]["argv"] = ["kit-test-unavailable-go", "test", "./..."]
+        self.task["components"][0]["checks"][0]["argv"] = [
+            "kit-test-unavailable-go",
+            "test",
+            "./...",
+        ]
         report = self.executor().start(self.task)
         self.assertEqual(report["status"], "blocked")
         self.assertEqual(report["error"]["category"], "tool_unavailable")
         self.assertEqual(report["agent_calls"], 0)
 
     def test_verification_cannot_mutate_source(self):
-        self.task["components"][0]["checks"][0]["argv"] = [sys.executable, "-c", "from pathlib import Path; Path('feature.py').write_text('changed')"]
+        self.task["components"][0]["checks"][0]["argv"] = [
+            sys.executable,
+            "-c",
+            "from pathlib import Path; Path('feature.py').write_text('changed')",
+        ]
         report = self.executor().start(self.task)
         self.assertEqual(report["error"]["category"], "checks_mutated_workspace")
 
     def test_real_command_timeout_prevents_completion(self):
-        self.task["components"][0]["checks"][0].update(argv=[sys.executable, "-c", "import time; time.sleep(5)"], timeout_seconds=1)
+        self.task["components"][0]["checks"][0].update(
+            argv=[sys.executable, "-c", "import time; time.sleep(5)"], timeout_seconds=1
+        )
         report = self.executor().start(self.task)
         self.assertEqual(report["error"]["category"], "timeout")
         self.assertEqual(report["status"], "failed")
@@ -190,7 +257,9 @@ class ExecutorIntegrationTests(ExecutorFixture, unittest.TestCase):
         adapter = ControlledAgent()
         executor = self.executor(adapter)
         report = executor.start(self.task)
-        (Path(report["workspace"]) / "feature.py").write_text("VALUE = 42\n# Additional inspected change\n")
+        (Path(report["workspace"]) / "feature.py").write_text(
+            "VALUE = 42\n# Additional inspected change\n"
+        )
         self.assertEqual(executor.report(report["run_id"])["status"], "stale")
         resumed = executor.resume(report["run_id"])
         self.assertEqual(resumed["status"], "succeeded", resumed["error"])
@@ -225,7 +294,12 @@ class ExecutorIntegrationTests(ExecutorFixture, unittest.TestCase):
 
     def test_actual_process_output_limit_is_enforced(self):
         with self.assertRaisesRegex(ExecutionError, "output"):
-            execute([sys.executable, "-c", "print('x' * 10000)"], self.repository, 5, max_output_bytes=500)
+            execute(
+                [sys.executable, "-c", "print('x' * 10000)"],
+                self.repository,
+                5,
+                max_output_bytes=500,
+            )
 
 
 if __name__ == "__main__":

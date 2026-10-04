@@ -14,6 +14,7 @@ The canonical rule directory is `rules/`.
 - Follow `rules/013-agent-sdlc-workflow.md` when designing or implementing automation.
 - Follow `rules/014-agent-skills-provider-standards.md` when editing agents, skills or provider profiles.
 - Follow `rules/015-local-data-ai-policy.md` for local hosting, infrastructure budget, data and AI decisions.
+- Follow `rules/017-quality-data-api-contracts.md` for code quality gates, data/query boundaries and application MCP parity.
 - Follow `rules/016-modularity-planning-governance.md` for extension boundaries, planning and provider readiness.
 - Agent and skill sources are in `agents/` and `.agents/skills/`; native provider profiles are generated.
 - After shared schema/policy changes, run `python3 scripts/provider_profiles.py --sync-resources --target .`.

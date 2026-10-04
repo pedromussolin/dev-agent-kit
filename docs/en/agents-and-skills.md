@@ -23,7 +23,7 @@ interpret these files and expose their own execution features.
 
 ## Current roster
 
-All 26 roles have canonical instructions and at least one focused skill. There are 28 skills:
+All 29 roles have canonical instructions and at least one focused skill. There are 31 skills:
 
 | Role | Main responsibility | Skill |
 | --- | --- | --- |
@@ -255,3 +255,5 @@ The coordinator also uses `sdlc-planning-session`; the architect also uses
 `sdlc-extension-design`. These task-specific skills include specialized artifact
 schemas. See [planning governance](planning-governance.md), [modular architecture](modular-platform.md)
 and [provider readiness](provider-readiness.md).
+
+New roles: Code Improver (`sdlc-code-improvement`), Code Reader (`sdlc-code-reading`) and Incident Analyst (`sdlc-incident-learning`). See [current increment](current-increment.md) for tested behavior and boundaries.

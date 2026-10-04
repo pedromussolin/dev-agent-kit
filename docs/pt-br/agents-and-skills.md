@@ -23,7 +23,7 @@ que interpretam esses arquivos e oferecem seus próprios recursos de execução.
 
 ## Catálogo atual
 
-Todos os 26 papéis têm instruções canônicas e ao menos uma skill focada. São 28 skills:
+Todos os 29 papéis têm instruções canônicas e ao menos uma skill focada. São 31 skills:
 
 | Papel | Responsabilidade principal | Skill |
 | --- | --- | --- |
@@ -259,3 +259,5 @@ O coordenador também usa `sdlc-planning-session`; o arquiteto também usa
 `sdlc-extension-design`. Essas skills focadas incluem contratos especializados de
 artefatos. Consulte [planejamento](planning-governance.md), [arquitetura modular](modular-platform.md)
 e [compatibilidade dos provedores](provider-readiness.md).
+
+Novos papéis: melhoria de código (`sdlc-code-improvement`), leitura eficiente (`sdlc-code-reading`) e análise de incidentes (`sdlc-incident-learning`). Veja o [incremento atual](current-increment.md) para comportamento testado e limites.

@@ -3,13 +3,15 @@
 import importlib.util
 import json
 import shutil
-from pathlib import Path
 import tempfile
 import tomllib
 import unittest
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SPEC = importlib.util.spec_from_file_location("provider_profiles", ROOT / "scripts/provider_profiles.py")
+SPEC = importlib.util.spec_from_file_location(
+    "provider_profiles", ROOT / "scripts/provider_profiles.py"
+)
 profiles = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(profiles)
 
@@ -69,7 +71,9 @@ class ProviderProfileTests(unittest.TestCase):
                 for skill in role["skills"]:
                     canonical = target / f".agents/skills/{skill}"
                     claude = target / f".claude/skills/{skill}"
-                    self.assertEqual((canonical / "SKILL.md").read_bytes(), (claude / "SKILL.md").read_bytes())
+                    self.assertEqual(
+                        (canonical / "SKILL.md").read_bytes(), (claude / "SKILL.md").read_bytes()
+                    )
                     self.assertTrue((canonical / "references/result-contract.json").is_file())
                     for directory in (canonical, claude):
                         self.assertEqual(
@@ -77,9 +81,17 @@ class ProviderProfileTests(unittest.TestCase):
                             (ROOT / "policies/project-defaults.json").read_bytes(),
                         )
                 self.assertTrue((target / f".github/agents/{role['id']}.agent.md").is_file())
-            first = {path.relative_to(target): path.read_bytes() for path in target.rglob("*") if path.is_file()}
+            first = {
+                path.relative_to(target): path.read_bytes()
+                for path in target.rglob("*")
+                if path.is_file()
+            }
             profiles.export_profiles(ROOT, target)
-            second = {path.relative_to(target): path.read_bytes() for path in target.rglob("*") if path.is_file()}
+            second = {
+                path.relative_to(target): path.read_bytes()
+                for path in target.rglob("*")
+                if path.is_file()
+            }
             self.assertEqual(first, second)
             self.assertEqual(profiles.export_profiles(ROOT, target, check=True), count)
 
@@ -145,7 +157,9 @@ class ProviderProfileTests(unittest.TestCase):
             catalog = json.loads((ROOT / "agents/catalog.json").read_text())
             catalog["roles"][0]["instructions"] = "../outside.md"
             (source / "agents/catalog.json").write_text(json.dumps(catalog))
-            (source / "contracts/agent-result.schema.json").write_bytes((ROOT / "contracts/agent-result.schema.json").read_bytes())
+            (source / "contracts/agent-result.schema.json").write_bytes(
+                (ROOT / "contracts/agent-result.schema.json").read_bytes()
+            )
             with self.assertRaises(profiles.ProfileError):
                 profiles.load_catalog(source)
 
@@ -187,6 +201,7 @@ class ProviderProfileTests(unittest.TestCase):
 
     def test_injected_renderer_uses_existing_packaging_and_conflict_checks(self):
         """Use an additional renderer without editing traversal or export control."""
+
         def example_renderer(role, prompt):
             return {f".example/agents/{role['id']}.json": json.dumps({"prompt": prompt}).encode()}
 
@@ -204,13 +219,16 @@ class ProviderProfileTests(unittest.TestCase):
 
     def test_renderer_path_collisions_are_rejected_before_writes(self):
         """A renderer cannot replace a canonical skill through output collisions."""
+
         def conflicting_renderer(role, prompt):
             return {f".agents/skills/{role['skills'][0]}/SKILL.md": b"Conflicting instructions"}
 
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory)
             with self.assertRaisesRegex(profiles.ProfileError, "path collision"):
-                profiles.export_profiles(ROOT, target, ("example",), renderers={"example": conflicting_renderer})
+                profiles.export_profiles(
+                    ROOT, target, ("example",), renderers={"example": conflicting_renderer}
+                )
             self.assertEqual(list(target.iterdir()), [])
 
     def test_specialized_contracts_are_synchronized_and_exported(self):
@@ -228,7 +246,11 @@ class ProviderProfileTests(unittest.TestCase):
             profiles.sync_result_contracts(source)
             profiles.export_profiles(source, target)
             for base in (".agents", ".claude"):
-                copy = target / base / "skills/sdlc-planning-session/references/planning-session.schema.json"
+                copy = (
+                    target
+                    / base
+                    / "skills/sdlc-planning-session/references/planning-session.schema.json"
+                )
                 self.assertEqual(copy.read_bytes(), path.read_bytes())
 
 

@@ -288,6 +288,39 @@
       "skills": [
         "sdlc-mlops"
       ]
+    },
+    {
+      "id": "code-improver",
+      "title": "Code Improver",
+      "group": "engineering",
+      "description": "Improve code clarity, remove dead code or optimize demonstrated bottlenecks when cleanup or performance work is requested. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate.",
+      "access": "workspace",
+      "instructions": "agents/code-improver.md",
+      "skills": [
+        "sdlc-code-improvement"
+      ]
+    },
+    {
+      "id": "code-reader",
+      "title": "Code Reader",
+      "group": "engineering",
+      "description": "Trace scoped behavior and summarize relevant code with minimal context when understanding an unfamiliar repository or preparing a handoff. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate.",
+      "access": "analysis",
+      "instructions": "agents/code-reader.md",
+      "skills": [
+        "sdlc-code-reading"
+      ]
+    },
+    {
+      "id": "incident-analyst",
+      "title": "Incident Analyst",
+      "group": "operations",
+      "description": "Analyze a demonstrated incident and propose scoped regression prevention when a failure, recurrence or operational incident needs investigation. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate.",
+      "access": "analysis",
+      "instructions": "agents/incident-analyst.md",
+      "skills": [
+        "sdlc-incident-learning"
+      ]
     }
   ]
 }

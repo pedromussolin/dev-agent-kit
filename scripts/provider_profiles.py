@@ -93,10 +93,14 @@ def load_catalog(source: Path) -> list[dict]:
                 raise ProfileError(f"Invalid skill reference for {role_id}")
             skill = confined_path(source, f".agents/skills/{name}/SKILL.md")
             skill_metadata(skill)
-            reference = confined_path(source, f".agents/skills/{name}/references/result-contract.json")
+            reference = confined_path(
+                source, f".agents/skills/{name}/references/result-contract.json"
+            )
             if reference.read_bytes() != contract:
                 raise ProfileError(f"Stale bundled result contract: {name}")
-            policy = confined_path(source, f".agents/skills/{name}/references/project-defaults.json")
+            policy = confined_path(
+                source, f".agents/skills/{name}/references/project-defaults.json"
+            )
             if policy.read_bytes() != defaults:
                 raise ProfileError(f"Stale bundled project defaults: {name}")
             for resource in skill.parent.glob("references/*.schema.json"):
@@ -104,7 +108,9 @@ def load_catalog(source: Path) -> list[dict]:
                 canonical = confined_path(source, f"contracts/{resource.name}")
                 if bundled.read_bytes() != canonical.read_bytes():
                     raise ProfileError(f"Stale bundled {resource.name}: {name}")
-    if any(not re.fullmatch(schema["properties"]["role_id"]["pattern"], role_id) for role_id in seen):
+    if any(
+        not re.fullmatch(schema["properties"]["role_id"]["pattern"], role_id) for role_id in seen
+    ):
         raise ProfileError("Result contract role ID pattern does not cover the catalog")
     return catalog["roles"]
 
@@ -159,22 +165,29 @@ def render_copilot(role: dict, prompt: str) -> dict[str, bytes]:
 
 Renderer = Callable[[dict, str], dict[str, bytes]]
 PROFILE_RENDERERS: dict[str, Renderer] = {
-    "codex": render_codex, "claude": render_claude, "copilot": render_copilot,
+    "codex": render_codex,
+    "claude": render_claude,
+    "copilot": render_copilot,
 }
 
 
-def render_profiles(source: Path, providers: tuple[str, ...] = PROVIDERS, *,
-                    renderers: Mapping[str, Renderer] | None = None) -> dict[str, bytes]:
+def render_profiles(
+    source: Path,
+    providers: tuple[str, ...] = PROVIDERS,
+    *,
+    renderers: Mapping[str, Renderer] | None = None,
+) -> dict[str, bytes]:
     """Render native profiles and portable skill bundles from canonical sources."""
     selected_renderers = PROFILE_RENDERERS if renderers is None else renderers
-    if not providers or len(set(providers)) != len(providers) or any(
-        provider not in selected_renderers for provider in providers
+    if (
+        not providers
+        or len(set(providers)) != len(providers)
+        or any(provider not in selected_renderers for provider in providers)
     ):
         raise ProfileError("Unknown or empty provider selection")
     roles = load_catalog(source)
     files = {}
     for role in roles:
-        role_id = role["id"]
         instructions = confined_path(source, role["instructions"]).read_text(encoding="utf-8")
         paths = ", ".join(f".agents/skills/{skill}/SKILL.md" for skill in role["skills"])
         prompt = (
@@ -226,7 +239,9 @@ def sync_result_contracts(source: Path) -> int:
     defaults = confined_path(source, "policies/project-defaults.json").read_bytes()
     json.loads(defaults)
     roles = catalog["roles"]
-    if any(not re.fullmatch(schema["properties"]["role_id"]["pattern"], role["id"]) for role in roles):
+    if any(
+        not re.fullmatch(schema["properties"]["role_id"]["pattern"], role["id"]) for role in roles
+    ):
         raise ProfileError("Result contract role ID pattern does not cover the catalog")
     targets = {}
     skills = set()
@@ -236,8 +251,12 @@ def sync_result_contracts(source: Path) -> int:
                 raise ProfileError("Invalid skill reference")
             skill_metadata(confined_path(source, f".agents/skills/{name}/SKILL.md"))
             skills.add(name)
-            targets[confined_path(source, f".agents/skills/{name}/references/result-contract.json")] = contract
-            targets[confined_path(source, f".agents/skills/{name}/references/project-defaults.json")] = defaults
+            targets[
+                confined_path(source, f".agents/skills/{name}/references/result-contract.json")
+            ] = contract
+            targets[
+                confined_path(source, f".agents/skills/{name}/references/project-defaults.json")
+            ] = defaults
             directory = confined_path(source, f".agents/skills/{name}/references")
             for resource in directory.glob("*.schema.json"):
                 bundled = confined_path(source, resource.relative_to(source).as_posix())
@@ -248,9 +267,14 @@ def sync_result_contracts(source: Path) -> int:
     return len(skills)
 
 
-def export_profiles(source: Path, target: Path, providers: tuple[str, ...] = PROVIDERS,
-                    check: bool = False, *,
-                    renderers: Mapping[str, Renderer] | None = None) -> int:
+def export_profiles(
+    source: Path,
+    target: Path,
+    providers: tuple[str, ...] = PROVIDERS,
+    check: bool = False,
+    *,
+    renderers: Mapping[str, Renderer] | None = None,
+) -> int:
     """Write or check profiles, refusing to overwrite unrelated or locally edited files."""
     source, target = source.resolve(), target.resolve()
     files = render_profiles(source, providers, renderers=renderers)
@@ -276,7 +300,9 @@ def export_profiles(source: Path, target: Path, providers: tuple[str, ...] = PRO
         else:
             changes.append(relative)
     if conflicts:
-        raise ProfileError("Refusing to overwrite unrelated or edited files: " + ", ".join(conflicts))
+        raise ProfileError(
+            "Refusing to overwrite unrelated or edited files: " + ", ".join(conflicts)
+        )
     if check:
         if changes:
             raise ProfileError("Missing or outdated generated profiles: " + ", ".join(changes))
@@ -287,7 +313,9 @@ def export_profiles(source: Path, target: Path, providers: tuple[str, ...] = PRO
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(files[relative])
     owned.update({relative: digest(content) for relative, content in files.items()})
-    manifest_path.write_text(json.dumps({"schema_version": 1, "files": owned}, indent=2, sort_keys=True) + "\n")
+    manifest_path.write_text(
+        json.dumps({"schema_version": 1, "files": owned}, indent=2, sort_keys=True) + "\n"
+    )
     return len(files)
 
 
@@ -298,8 +326,13 @@ def main() -> int:
     parser.add_argument("--target", type=Path, default=Path.cwd())
     parser.add_argument("--provider", choices=(*PROVIDERS, "all"), default="all")
     parser.add_argument("--check", action="store_true", help="Validate without writing files")
-    parser.add_argument("--sync-resources", "--sync-contracts", dest="sync_resources", action="store_true",
-                        help="Refresh bundled result schemas and project defaults before export")
+    parser.add_argument(
+        "--sync-resources",
+        "--sync-contracts",
+        dest="sync_resources",
+        action="store_true",
+        help="Refresh bundled result schemas and project defaults before export",
+    )
     args = parser.parse_args()
     selected = PROVIDERS if args.provider == "all" else (args.provider,)
     try:
