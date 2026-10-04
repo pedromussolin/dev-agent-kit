@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Designer"
+  short_description: "UI Designer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-interface-design for the scoped task and return evidence with unresolved questions."

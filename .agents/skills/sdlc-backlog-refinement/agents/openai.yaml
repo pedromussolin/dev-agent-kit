@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Owner"
+  short_description: "Product Owner workflow and evidence handoff"
+  default_prompt: "Use $sdlc-backlog-refinement for the scoped task and return evidence with unresolved questions."

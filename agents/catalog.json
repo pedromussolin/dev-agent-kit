@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "roles": [
+    {
+      "id": "product-manager",
+      "title": "Product Manager",
+      "group": "product",
+      "description": "Investigate product problems and define evidence-backed outcomes when starting or reassessing an initiative. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/product-manager.md",
+      "skills": [
+        "sdlc-product-discovery"
+      ]
+    },
+    {
+      "id": "product-owner",
+      "title": "Product Owner",
+      "group": "product",
+      "description": "Refine and prioritize backlog items with testable acceptance criteria when product goals or candidate tasks are available. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/product-owner.md",
+      "skills": [
+        "sdlc-backlog-refinement"
+      ]
+    },
+    {
+      "id": "delivery-planner",
+      "title": "Delivery Planner",
+      "group": "product",
+      "description": "Break refined work into dependencies and executable handoffs when planning delivery or replanning a blocked task. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/delivery-planner.md",
+      "skills": [
+        "sdlc-delivery-planning"
+      ]
+    },
+    {
+      "id": "technology-strategist",
+      "title": "Technology Strategist",
+      "group": "engineering",
+      "description": "Evaluate languages, frameworks and build-versus-buy choices when a project needs a technology decision. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/technology-strategist.md",
+      "skills": [
+        "sdlc-technology-evaluation"
+      ]
+    },
+    {
+      "id": "software-architect",
+      "title": "Software Architect",
+      "group": "engineering",
+      "description": "Design system boundaries, interfaces and architectural tradeoffs when features cross modules or change system structure. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/software-architect.md",
+      "skills": [
+        "sdlc-architecture-design",
+        "sdlc-extension-design"
+      ]
+    },
+    {
+      "id": "software-engineer",
+      "title": "Software Engineer",
+      "group": "engineering",
+      "description": "Translate refined requirements into implementable contracts and technical feasibility before or during complex development. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/software-engineer.md",
+      "skills": [
+        "sdlc-engineering-design"
+      ]
+    },
+    {
+      "id": "developer",
+      "title": "Developer",
+      "group": "engineering",
+      "description": "Implement or repair a scoped software task when acceptance criteria and relevant project context are available. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/developer.md",
+      "skills": [
+        "sdlc-implementation"
+      ]
+    },
+    {
+      "id": "qa-engineer",
+      "title": "QA Engineer",
+      "group": "quality",
+      "description": "Plan and assess acceptance, integration and regression testing during refinement or verification of a software change. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/qa-engineer.md",
+      "skills": [
+        "sdlc-quality-assurance"
+      ]
+    },
+    {
+      "id": "security-engineer",
+      "title": "Cybersecurity Engineer",
+      "group": "security",
+      "description": "Assess threats and security findings when a task requests security review or changes authentication, sensitive data or trust boundaries. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/security-engineer.md",
+      "skills": [
+        "sdlc-security-assessment"
+      ]
+    },
+    {
+      "id": "cloud-architect",
+      "title": "Cloud Architect",
+      "group": "platform",
+      "description": "Design cloud topology, identity and resilience when cloud hosting or infrastructure choices are in scope. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/cloud-architect.md",
+      "skills": [
+        "sdlc-cloud-design"
+      ]
+    },
+    {
+      "id": "devops-engineer",
+      "title": "DevOps Engineer",
+      "group": "platform",
+      "description": "Create or improve CI/CD, infrastructure-as-code and delivery automation when build or platform work is requested. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/devops-engineer.md",
+      "skills": [
+        "sdlc-devops-automation"
+      ]
+    },
+    {
+      "id": "database-administrator",
+      "title": "Database Administrator",
+      "group": "data",
+      "description": "Design, assess or change schemas, migrations, query performance and database recovery when database work is in scope. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/database-administrator.md",
+      "skills": [
+        "sdlc-database-engineering"
+      ]
+    },
+    {
+      "id": "ux-designer",
+      "title": "UX Designer",
+      "group": "design",
+      "description": "Plan user journeys, information architecture and interaction flows when defining or improving a product experience. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/ux-designer.md",
+      "skills": [
+        "sdlc-user-experience"
+      ]
+    },
+    {
+      "id": "ui-designer",
+      "title": "UI Designer",
+      "group": "design",
+      "description": "Specify screens, interaction states and design-system usage when interface planning or visual design is requested. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/ui-designer.md",
+      "skills": [
+        "sdlc-interface-design"
+      ]
+    },
+    {
+      "id": "accessibility-specialist",
+      "title": "Accessibility Specialist",
+      "group": "quality",
+      "description": "Assess accessible interaction and interface requirements when accessibility review is requested or an affected flow requires it. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/accessibility-specialist.md",
+      "skills": [
+        "sdlc-accessibility-review"
+      ]
+    },
+    {
+      "id": "technical-reviewer",
+      "title": "Technical Reviewer",
+      "group": "quality",
+      "description": "Review a current diff for correctness, regressions and design compatibility when independent technical review is requested. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/technical-reviewer.md",
+      "skills": [
+        "sdlc-code-review"
+      ]
+    },
+    {
+      "id": "release-manager",
+      "title": "Release Manager",
+      "group": "delivery",
+      "description": "Assess release readiness and coordinate authorized delivery when preparing a PR, merge or deployment. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/release-manager.md",
+      "skills": [
+        "sdlc-release-readiness"
+      ]
+    },
+    {
+      "id": "site-reliability-engineer",
+      "title": "Site Reliability Engineer",
+      "group": "operations",
+      "description": "Plan or assess observability, reliability, incident response and recovery when operational behavior is in scope. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/site-reliability-engineer.md",
+      "skills": [
+        "sdlc-reliability-operations"
+      ]
+    },
+    {
+      "id": "technical-writer",
+      "title": "Technical Writer",
+      "group": "documentation",
+      "description": "Create or update onboarding, architecture, API and operational documentation when a change needs a human-facing handoff. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/technical-writer.md",
+      "skills": [
+        "sdlc-technical-documentation"
+      ]
+    },
+    {
+      "id": "sdlc-coordinator",
+      "title": "SDLC Coordinator",
+      "group": "orchestration",
+      "description": "Coordinate requested SDLC roles and evidence handoffs when a user asks to run a multi-role development workflow. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/sdlc-coordinator.md",
+      "skills": [
+        "sdlc-task-coordination",
+        "sdlc-planning-session"
+      ]
+    },
+    {
+      "id": "ai-strategist",
+      "title": "AI Strategist",
+      "group": "ai",
+      "description": "Evaluate AI opportunities and define an AI roadmap when model use, value, risk or model-versus-deterministic tradeoffs are in scope. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "analysis",
+      "instructions": "agents/ai-strategist.md",
+      "skills": [
+        "sdlc-ai-strategy"
+      ]
+    },
+    {
+      "id": "ai-engineer",
+      "title": "AI Engineer",
+      "group": "ai",
+      "description": "Design or implement model integrations, tool use and retrieval when an application needs evaluated AI behavior. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/ai-engineer.md",
+      "skills": [
+        "sdlc-ai-engineering"
+      ]
+    },
+    {
+      "id": "context-engineer",
+      "title": "Context Engineer",
+      "group": "ai",
+      "description": "Optimize prompts, context selection and model routing when agent token consumption or response reliability needs improvement. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/context-engineer.md",
+      "skills": [
+        "sdlc-context-engineering"
+      ]
+    },
+    {
+      "id": "data-engineer",
+      "title": "Data Engineer",
+      "group": "data",
+      "description": "Design or implement data ingestion, transformations and quality contracts when reliable analytical or AI inputs are required. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/data-engineer.md",
+      "skills": [
+        "sdlc-data-engineering"
+      ]
+    },
+    {
+      "id": "llm-evaluation-engineer",
+      "title": "LLM Evaluation Engineer",
+      "group": "ai",
+      "description": "Build and run AI evaluations when prompts, models, tools or retrieval need quality, safety and cost regression evidence. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/llm-evaluation-engineer.md",
+      "skills": [
+        "sdlc-llm-evaluation"
+      ]
+    },
+    {
+      "id": "mlops-engineer",
+      "title": "MLOps Engineer",
+      "group": "ai",
+      "description": "Prepare reproducible AI delivery and monitoring when model, prompt or retrieval versions need controlled rollout and recovery. Local-first; cloud infrastructure cap BRL 100/month; AI budget separate; data-first and measured AI quality/cost.",
+      "access": "workspace",
+      "instructions": "agents/mlops-engineer.md",
+      "skills": [
+        "sdlc-mlops"
+      ]
+    }
+  ]
+}

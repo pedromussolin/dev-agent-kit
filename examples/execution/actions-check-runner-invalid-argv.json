@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "task_id": "actions-check-runner-invalid-argv",
+  "project_id": "shared-actions",
+  "repository": "/home/pnetto/repos/actions",
+  "base_revision": "4b45dbca4986e076a098263fea05535f47762819",
+  "goal": "Fix one precise validation defect in scripts/run_checks.py and add a regression test in tests/test_run_checks.py. Validate the entire check list before execution, including rejecting any argv string containing a NUL character and rejecting an empty argv[0] executable. These inputs currently fail only inside subprocess.run after an earlier check may have side effects. Preserve empty strings in later arguments, which are legitimate. Add a test showing a first marker-producing check does not run when a later check has one of these invalid arguments, and that a legitimate empty later argument still works. Read the two files in one batch, apply this small correction, then return the structured result. The existing supplied skill/policy/schema already apply; do not explore unrelated files or rerun the complete checks. The executor handles checks and independent QA/review.",
+  "acceptance_criteria": [
+    "Invalid argv containing NUL or an empty executable is rejected before any check side effects.",
+    "Empty non-executable arguments remain valid.",
+    "Regression checks pass and independent QA/review accept the exact source."
+  ],
+  "context_files": [
+    "checks.example.json"
+  ],
+  "components": [
+    {
+      "name": "actions",
+      "language": "python",
+      "working_directory": ".",
+      "checks": [
+        {
+          "name": "unit",
+          "argv": [
+            "python3",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-v"
+          ],
+          "timeout_seconds": 30
+        },
+        {
+          "name": "example",
+          "argv": [
+            "python3",
+            "scripts/run_checks.py",
+            "checks.example.json"
+          ],
+          "timeout_seconds": 30
+        }
+      ]
+    }
+  ],
+  "agent": {
+    "adapter": "codex-app-server",
+    "auth_mode": "chatgpt"
+  },
+  "limits": {
+    "max_attempts": 2,
+    "max_agent_calls": 6,
+    "agent_timeout_seconds": 600,
+    "max_run_seconds": 2400,
+    "max_context_characters": 40000,
+    "max_tool_calls": 8,
+    "max_repeated_tool_calls": 3,
+    "idle_timeout_seconds": 180,
+    "max_tokens_per_agent": 100000,
+    "max_total_tokens": 250000,
+    "max_project_tokens_per_day": 500000,
+    "max_project_calls_per_day": 20,
+    "max_no_progress_attempts": 2
+  },
+  "policy": {
+    "include_working_tree": true,
+    "delivery": "diff",
+    "allowed_paths": [
+      "scripts/run_checks.py",
+      "tests/test_run_checks.py"
+    ],
+    "authorization_reference": "User request on 2026-10-04 to complete executor controls, multi-repository support and real agent validation.",
+    "ai_spending": "existing_chatgpt_account",
+    "infrastructure_monthly_cap_brl": 100
+  }
+}

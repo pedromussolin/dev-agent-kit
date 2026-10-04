@@ -3,7 +3,12 @@
 ## Ambientes e Branches
 - **sandbox** → Branch `sandbox` (Homologação interna)
 - **staging** → Branch `staging` (Pré-release)
-- **master** → Branch `master` (Produção)
+- **Produção** → Branch principal definida pelo projeto (`main`, `master` ou outra configuração explícita).
+
+Descubra a branch principal pelo contexto do projeto e pelo HEAD remoto. Neste
+repositório, a branch principal é `main`. Não crie uma branch `master` apenas para
+adequar o projeto a um exemplo de regra. `sandbox` e `staging` são convenções para
+projetos que adotam esses ambientes, não branches obrigatórias em todo repositório.
 
 ---
 
@@ -40,6 +45,8 @@ Exemplo: `feat(3718): Adjust linked entity enum`
 
 ## Fluxo de Trabalho e Restrições Críticas
 
-1. **Origem Obrigatória:** Toda nova branch de desenvolvimento DEVE ser criada a partir da branch `master` atualizada (`git pull origin master`).
+1. **Origem Obrigatória:** Toda nova branch de desenvolvimento DEVE ser criada a partir da branch principal atualizada e confirmada no projeto. Inspecione o estado de trabalho antes de atualizar ou alterar branches; não sobrescreva alterações locais.
 2. **Proibição de Merge Inverso:** NUNCA faça `git pull` ou `git merge` das branches `staging` ou `sandbox` para dentro da sua branch de desenvolvimento.
-3. **Resolução de Conflitos:** Resolva conflitos apenas via rebase/merge com a `master` ou através de branches de integração próprias.
+3. **Resolução de Conflitos:** Resolva conflitos apenas via rebase/merge com a branch principal ou através de branches de integração próprias.
+
+4. **Rastreabilidade:** Use um ID real de Issue/tarefa nas branches e commits. Enquanto não existir um ID, prepare alterações locais para revisão sem inventar números.

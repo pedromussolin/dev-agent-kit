@@ -1,0 +1,4 @@
+interface:
+  display_name: "Developer"
+  short_description: "Developer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-implementation for the scoped task and return evidence with unresolved questions."

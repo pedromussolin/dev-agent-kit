@@ -1,0 +1,4 @@
+interface:
+  display_name: "SDLC Coordinator"
+  short_description: "SDLC Coordinator workflow and evidence handoff"
+  default_prompt: "Use $sdlc-task-coordination for the scoped task and return evidence with unresolved questions."

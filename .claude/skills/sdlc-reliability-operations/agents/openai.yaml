@@ -1,0 +1,4 @@
+interface:
+  display_name: "Site Reliability Engineer"
+  short_description: "Site Reliability Engineer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-reliability-operations for the scoped task and return evidence with unresolved questions."

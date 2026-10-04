@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Writer"
+  short_description: "Technical Writer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-technical-documentation for the scoped task and return evidence with unresolved questions."

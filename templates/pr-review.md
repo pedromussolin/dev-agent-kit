@@ -9,10 +9,20 @@ Você deve realizar uma análise profunda e implacável em três pilares princip
 ## 1. Instruções de Execução
 
 1. **Consulte o Mapeador de Regras:**
-   Abra e leia o arquivo `docs/regras/INDEX.md` para identificar as diretrizes aplicáveis.
+   Abra e leia o arquivo `rules/INDEX.md` para identificar as diretrizes aplicáveis.
 
 2. **Inspecione as Alterações (Git Diff / Modificados):**
    Análise todos os arquivos alterados, adicionados ou removidos.
+
+3. **Consulte o Contrato e as Evidências:**
+   Relacione critérios de aceite, decisões de arquitetura e achados de QA ao diff.
+   Confirme que as verificações correspondem à revisão atual. Evidência ausente ou
+   desatualizada deve aparecer como pendência, nunca como aprovação presumida.
+
+4. **Respeite a Stack:**
+   Aplique convenções e ferramentas das linguagens reais do projeto conforme
+   `rules/012-polyglot-project-standards.md`; exemplos TypeScript não são requisitos
+   universais para Python, Go ou outras stacks.
 
 ---
 
@@ -36,7 +46,7 @@ Detecte se o Pull Request introduz **qualquer nova dependência ou alteração d
   - Essa inclusão foi justificada? Existem configurações de fallback, retentativas e timeouts configurados para essa nova infraestrutura?
   - As novas credenciais do serviço estão adequadamente isoladas via `.env`?
 
-### 📋 Pilar C: Auditoria de Regras do Repositório (`docs/regras/`)
+### 📋 Pilar C: Auditoria de Regras do Repositório (`rules/`)
 - **Regra 003 (Language Standards):** TODO o código, variáveis, comentários, logs, arquivos e mensagens de commit estão 100% em Inglês?
 - **Outras Regras Aplicáveis:** Verifique conformidade com Git, documentação, CSS, arquitetura frontend, erros, testes, logs, banco de dados, segurança de API e variáveis de ambiente.
 

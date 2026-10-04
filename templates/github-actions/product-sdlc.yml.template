@@ -1,0 +1,18 @@
+name: Product SDLC request
+on:
+  workflow_dispatch:
+    inputs:
+      task-file: {type: string, required: true, description: 'Committed trusted portable task path'}
+permissions:
+  contents: read
+jobs:
+  execute:
+    uses: pedromussolin/actions/.github/workflows/sdlc-executor.yml@9fda5717130c1ea237beb6e7aa98b80726133ea2
+    with:
+      actions-revision: 9fda5717130c1ea237beb6e7aa98b80726133ea2
+      kit-revision: <PUBLISHED_KIT_COMMIT_SHA>
+      task-file: ${{ inputs.task-file }}
+      node-version: '22'
+      prepare-checks-file: .github/checks/prepare.json
+    secrets:
+      DELIVERY_TOKEN: ${{ secrets.SDLC_DELIVERY_TOKEN }}

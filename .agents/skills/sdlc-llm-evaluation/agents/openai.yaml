@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Evaluation Engineer"
+  short_description: "SDLC workflow for llm evaluation engineer"
+  default_prompt: "Use $sdlc-llm-evaluation to complete the assigned task with evidence."

@@ -1,0 +1,21 @@
+name: dev-agent-kit-monitor
+services:
+  monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    user: "${DEV_AGENT_KIT_UID:-1000}:${DEV_AGENT_KIT_GID:-1000}"
+    environment:
+      DEV_AGENT_KIT_MONITOR_TOKEN: ${DEV_AGENT_KIT_MONITOR_TOKEN:?Set a private monitoring password}
+    volumes:
+      - ${DEV_AGENT_KIT_STATE_DIR:?Set the existing executor state directory}:/state
+    ports:
+      - "127.0.0.1:8765:8765"
+    restart: unless-stopped
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    read_only: true
+    tmpfs: [/tmp]
+    logging:
+      driver: json-file
+      options: {max-size: '5m', max-file: '3'}

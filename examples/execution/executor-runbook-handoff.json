@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "task_id": "executor-runbook-handoff",
+  "project_id": "dev-agent-kit",
+  "repository": "/home/pnetto/repos/dev-agent-kit",
+  "base_revision": "50ae70afdb5954bd325eb0d43999d72eef800e0f",
+  "goal": "Finish the existing bilingual local-executor guides for actual use. The drafts were written by earlier Codex invocations that timed out before returning a structured handoff; their output is not yet accepted. Inspect the actual CLI and relevant code, preserve correct content, and add a short first-run checklist near the beginning of each guide. The checklist must cover preparing Python/dependencies, confirming existing ChatGPT authentication, creating a real task, validating it, running it, and inspecting the resulting run_id/report before considering resume. Keep the existing links, examples and truthful limits/pending integrations. Fix concrete factual errors if found. Return the structured result when this focused assignment is done. Modify only the two guides; do not expand scope or recreate them from scratch.",
+  "acceptance_criteria": [
+    "Both guides explain the actual implemented CLI with valid command names and directory flags.",
+    "Both guides explain task configuration, bounded account-based execution, role results and authoritative checks.",
+    "Both guides describe isolation, evidence invalidation, interruption handling and currently pending integrations accurately.",
+    "Documentation follows separate English and Portuguese directories, linking its counterpart.",
+    "Both guides begin with an actionable first-run checklist consistent with the actual CLI and role boundaries."
+  ],
+  "context_files": [
+    "dev_agent_kit/cli.py",
+    "dev_agent_kit/executor.py",
+    "contracts/execution-task.schema.json"
+  ],
+  "components": [
+    {
+      "name": "executor",
+      "language": "python",
+      "working_directory": ".",
+      "checks": [
+        {
+          "name": "cli-help",
+          "argv": [
+            "python3",
+            "-m",
+            "dev_agent_kit",
+            "--help"
+          ],
+          "timeout_seconds": 15
+        },
+        {
+          "name": "runbook-acceptance",
+          "argv": [
+            "python3",
+            "scripts/check_executor_runbook.py"
+          ],
+          "timeout_seconds": 15
+        },
+        {
+          "name": "kit-regression",
+          "argv": [
+            "python3",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-v"
+          ],
+          "timeout_seconds": 60
+        }
+      ]
+    }
+  ],
+  "agent": {
+    "adapter": "codex-cli",
+    "auth_mode": "chatgpt"
+  },
+  "limits": {
+    "max_attempts": 2,
+    "max_agent_calls": 6,
+    "agent_timeout_seconds": 600,
+    "max_run_seconds": 2400,
+    "max_context_characters": 90000
+  },
+  "policy": {
+    "include_working_tree": true,
+    "delivery": "diff",
+    "allowed_paths": [
+      "docs/en/local-executor.md",
+      "docs/pt-br/local-executor.md"
+    ],
+    "authorization_reference": "User request on 2026-10-04: implement the executor and validate agents on real tasks.",
+    "ai_spending": "existing_chatgpt_account",
+    "infrastructure_monthly_cap_brl": 100
+  }
+}

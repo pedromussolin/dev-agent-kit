@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "task_id": "bounded-stack-discovery",
+  "project_id": "dev-agent-kit",
+  "repository": "/home/pnetto/repos/dev-agent-kit",
+  "base_revision": "50ae70afdb5954bd325eb0d43999d72eef800e0f",
+  "goal": "Implement dev_agent_kit/stacks.py with detect_components(repository: Path) -> list[dict] for the new inspect CLI. Inspect only root-level manifests. Report each detected Python (pyproject.toml or requirements.txt), Go (go.mod), JavaScript (package.json) and Rust (Cargo.toml) component independently; do not impose Node. Each component contains name, language, working_directory=\".\", manifests (relative filenames) and suggested_checks (name, argv argument array, timeout_seconds). JavaScript check suggestions must reference only existing test/lint/build/typecheck scripts and use the matching root lockfile package manager (npm, pnpm, yarn or bun). Go/Rust may suggest their idiomatic tests; Python suggests existing test tooling or no checks if unavailable. Root missing/invalid manifests must have visible diagnostics rather than silently succeeding. Read metadata only; do not execute tools, install packages, create environments, modify manifests or scan dependencies. Keep this small focused module; add tests/unit/test_stack_discovery.py for empty and mixed-language projects, package-manager selection and invalid inputs. The provided acceptance script supplies the expected public shape. Return structured results when done; keep tool calls few and batch focused reads. Change only these two permitted files.",
+  "acceptance_criteria": [
+    "The supplied stack discovery acceptance script passes.",
+    "The inspect CLI can describe the kit checkout without running suggested commands.",
+    "Unit tests cover mixed stacks, manager selection and malformed input; existing regression tests pass."
+  ],
+  "context_files": [
+    "examples/execution/check_stack_discovery.py"
+  ],
+  "components": [
+    {
+      "name": "executor",
+      "language": "python",
+      "working_directory": ".",
+      "checks": [
+        {
+          "name": "stack-acceptance",
+          "argv": [
+            "/tmp/dev-agent-kit-runtime-venv/bin/python",
+            "examples/execution/check_stack_discovery.py"
+          ],
+          "timeout_seconds": 30
+        },
+        {
+          "name": "inspect-cli",
+          "argv": [
+            "/tmp/dev-agent-kit-runtime-venv/bin/python",
+            "-m",
+            "dev_agent_kit",
+            "inspect",
+            "."
+          ],
+          "timeout_seconds": 30
+        },
+        {
+          "name": "regression",
+          "argv": [
+            "/tmp/dev-agent-kit-runtime-venv/bin/python",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-v"
+          ],
+          "timeout_seconds": 90
+        }
+      ]
+    }
+  ],
+  "agent": {
+    "adapter": "codex-app-server",
+    "auth_mode": "chatgpt"
+  },
+  "limits": {
+    "max_attempts": 2,
+    "max_agent_calls": 6,
+    "agent_timeout_seconds": 600,
+    "max_run_seconds": 2400,
+    "max_context_characters": 30000,
+    "max_tool_calls": 12,
+    "max_repeated_tool_calls": 3,
+    "idle_timeout_seconds": 180,
+    "max_tokens_per_agent": 100000,
+    "max_total_tokens": 250000,
+    "max_project_tokens_per_day": 1500000,
+    "max_project_calls_per_day": 20,
+    "max_no_progress_attempts": 2
+  },
+  "policy": {
+    "include_working_tree": true,
+    "delivery": "diff",
+    "allowed_paths": [
+      "dev_agent_kit/stacks.py",
+      "tests/unit/test_stack_discovery.py"
+    ],
+    "authorization_reference": "User request on 2026-10-04 to complete executor controls, multi-repository support and real agent validation.",
+    "ai_spending": "existing_chatgpt_account",
+    "infrastructure_monthly_cap_brl": 100
+  }
+}

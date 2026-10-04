@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Manager"
+  short_description: "Release Manager workflow and evidence handoff"
+  default_prompt: "Use $sdlc-release-readiness for the scoped task and return evidence with unresolved questions."

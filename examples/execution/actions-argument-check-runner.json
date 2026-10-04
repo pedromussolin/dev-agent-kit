@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "task_id": "actions-argument-check-runner",
+  "project_id": "shared-actions",
+  "repository": "/home/pnetto/repos/actions",
+  "base_revision": "4b45dbca4986e076a098263fea05535f47762819",
+  "goal": "Implement scripts/run_checks.py and tests/test_run_checks.py in this newly created shared Actions repository. This is a small actual workflow utility. CLI: python scripts/run_checks.py FILE. FILE is a JSON list of 1..20 strict objects with only name (nonempty unique string), argv (nonempty list of strings) and timeout_seconds (integer 1..900, not bool). Validate the complete list before executing any commands. Run each argv directly using subprocess.run without a shell, inheriting the current working directory, with its declared timeout. Return exit 0 only if all checks exit 0; return nonzero with concise diagnostic for invalid input, unavailable command, timeout or failed command. Stop after the first failure. No installs or network calls. Test with real temporary scripts/processes: success, failure preventing the later marker, full validation before side effects, literal shell characters, invalid JSON and timeout. Use only Python standard library. Read README.md and checks.example.json in one focused command; code this small utility and tests, then return structured result. The executor runs all declared checks; do not duplicate them. Do not expand scope or explore unrelated repositories.",
+  "acceptance_criteria": [
+    "Argument-array checks execute with no shell.",
+    "Invalid configurations have no execution side effects.",
+    "Failures/timeouts stop subsequent checks and return nonzero."
+  ],
+  "context_files": [
+    "checks.example.json"
+  ],
+  "components": [
+    {
+      "name": "actions",
+      "language": "python",
+      "working_directory": ".",
+      "checks": [
+        {
+          "name": "unit",
+          "argv": [
+            "python3",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-v"
+          ],
+          "timeout_seconds": 30
+        },
+        {
+          "name": "example",
+          "argv": [
+            "python3",
+            "scripts/run_checks.py",
+            "checks.example.json"
+          ],
+          "timeout_seconds": 30
+        }
+      ]
+    }
+  ],
+  "agent": {
+    "adapter": "codex-app-server",
+    "auth_mode": "chatgpt"
+  },
+  "limits": {
+    "max_attempts": 2,
+    "max_agent_calls": 6,
+    "agent_timeout_seconds": 600,
+    "max_run_seconds": 2400,
+    "max_context_characters": 25000,
+    "max_tool_calls": 8,
+    "max_repeated_tool_calls": 3,
+    "idle_timeout_seconds": 180,
+    "max_tokens_per_agent": 100000,
+    "max_total_tokens": 250000,
+    "max_project_tokens_per_day": 500000,
+    "max_project_calls_per_day": 20,
+    "max_no_progress_attempts": 2
+  },
+  "policy": {
+    "include_working_tree": true,
+    "delivery": "diff",
+    "allowed_paths": [
+      "scripts/run_checks.py",
+      "tests/test_run_checks.py"
+    ],
+    "authorization_reference": "User request on 2026-10-04 to complete executor controls, multi-repository support and real agent validation.",
+    "ai_spending": "existing_chatgpt_account",
+    "infrastructure_monthly_cap_brl": 100
+  }
+}

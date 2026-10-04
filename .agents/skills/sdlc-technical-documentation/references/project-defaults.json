@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "deployment": {
+    "default": "local",
+    "cloud_is_optional": true
+  },
+  "infrastructure_budget": {
+    "currency": "BRL",
+    "monthly_cap": 100,
+    "scope": [
+      "compute",
+      "database",
+      "observability",
+      "storage",
+      "backups",
+      "network",
+      "taxes_and_currency_fees"
+    ],
+    "planning_reserve": 20,
+    "reserve_is_recommendation": true,
+    "estimate_requires": [
+      "price_source",
+      "checked_at",
+      "region",
+      "usage_assumptions",
+      "currency_conversion",
+      "taxes_and_fees"
+    ]
+  },
+  "ai_budget": {
+    "separate_from_infrastructure": true,
+    "monthly_cap": null,
+    "unset_means": "unspecified_not_unlimited"
+  },
+  "data_first": [
+    "explicit_schema_and_ownership",
+    "quality_checks",
+    "provenance",
+    "privacy_and_retention",
+    "reproducible_migrations_and_recovery"
+  ],
+  "ai_first": [
+    "evaluate_ai_against_deterministic_baseline",
+    "structured_results",
+    "bounded_context_and_attempts",
+    "measured_quality_and_cost",
+    "explicit_fallback"
+  ],
+  "tool_selection": {
+    "prefer": "maintained_stable_tools_matching_project_requirements",
+    "versions": "verify_then_pin",
+    "activate_only_when_needed": true
+  },
+  "recommended_profiles": {
+    "executor_core": [
+      "Python",
+      "SQLite",
+      "structured JSON logs"
+    ],
+    "local_services": [
+      "Docker Compose",
+      "PostgreSQL",
+      "DBeaver Community"
+    ],
+    "observability": [
+      "OpenTelemetry",
+      "Grafana",
+      "Loki",
+      "Alloy",
+      "Prometheus"
+    ],
+    "optional_traces": [
+      "Tempo"
+    ],
+    "optional_ai_observability_and_evals": [
+      "Langfuse",
+      "promptfoo"
+    ],
+    "optional_local_models": [
+      "Ollama"
+    ],
+    "optional_vector_search": [
+      "pgvector"
+    ],
+    "optional_cloud_iac": [
+      "OpenTofu"
+    ]
+  },
+  "enforcement_status": "instruction_and_packaging_validation_with_scoped_executor_controls_financial_enforcement_pending"
+}

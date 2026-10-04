@@ -1,0 +1,4 @@
+interface:
+  display_name: "MLOps Engineer"
+  short_description: "SDLC workflow for mlops engineer"
+  default_prompt: "Use $sdlc-mlops to complete the assigned task with evidence."

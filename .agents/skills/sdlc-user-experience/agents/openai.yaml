@@ -1,0 +1,4 @@
+interface:
+  display_name: "UX Designer"
+  short_description: "UX Designer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-user-experience for the scoped task and return evidence with unresolved questions."
