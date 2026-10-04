@@ -70,7 +70,9 @@ includes contracts, failure recovery, an implementation roadmap and open decisio
 The role profiles, skills, packager, kit-validation workflow and initial local
 executor are implemented. All 26 roles can be selected in bounded sequential task workflows. Native client
 discovery, autonomous product scheduling and plugin loading require further
-increments. Delivery adapters and shared Actions workflows are implemented; remote
-activation needs a published revision, runner and product configuration. See
+increments. Delivery adapters and shared Actions workflows are implemented and
+activated for the private finance-management product on two local runners. The
+real developer → checks → QA → review → PR → CI → merge → Docker delivery passed.
+See the measured [product evaluation](evaluations/finance-management-delivery.json) and
 [delivery and Actions](docs/en/delivery-and-actions.md).
 Provider format validation alone does not establish agent quality.

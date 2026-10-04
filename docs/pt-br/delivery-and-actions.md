@@ -11,8 +11,7 @@ GitHub Actions não exige um repositório com esse nome.
 Workflows reutilizáveis ficam em `.github/workflows/` e declaram `workflow_call`.
 O produto chama o workflow do repo `actions` em um commit publicado e imutável, seguindo o
 [modelo oficial do GitHub](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows).
-Nenhum SHA de release foi inventado: preencha os templates depois da publicação
-revisada do kit. O executor reutilizável `actions/.github/workflows/sdlc-executor.yml`
+As revisões do actions e do kit estão publicadas e fixadas no template do caller. O executor reutilizável `actions/.github/workflows/sdlc-executor.yml`
 e o [template do produto](../../templates/github-actions/product-sdlc.yml.template)
 separam execução e responsabilidade pelo produto.
 
@@ -100,3 +99,22 @@ Registro e ambiente Python persistente ficam fora dos repositórios, em
 após reboot. Ele exige repositório privado. O arquivo do produto deve fixar os
 SHAs publicados do actions e do kit; tarefas reais usam issue e critérios de CI
 existentes.
+
+## Pré-requisitos da ativação pessoal
+
+O primeiro consumidor privado usa a revisão actions
+`3f4cfeb8a0e363d237dd6d117d7422b941189667` e a revisão kit
+`ab4c21894e61e3aca09575cf237e50a154955478`. Os runners registrados usam GitHub
+Runner 2.337.0, GitHub CLI 2.102.0 e ambiente Python persistente. A credencial
+permanece no armazenamento local existente. Alterações de workflows são
+publicadas pela chave SSH configurada; o token OAuth não tem escopo workflow,
+mas atende à entrega comum e às operações de API. Um CI anterior falhou pela
+reutilização da pasta de utilidades; cada job agora usa uma pasta temporária
+exclusiva. Checks de push e PR com o mesmo nome exigido precisam passar.
+
+Execute o launcher no terminal do host: a conferência de PID usa o namespace de
+processos Linux dessa máquina. Um resultado parado dentro de outro container
+não comprova que o runner do host parou. Confirme a conexão no GitHub. Agentes
+só iniciam por solicitação manual explícita; não há consumo recorrente de IA.
+Uma tarefa concluída cuja issue foi fechada não pode ser reenviada sem novo
+escopo e issue válidos.

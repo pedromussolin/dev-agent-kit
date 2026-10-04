@@ -11,8 +11,7 @@ released reusable workflows; the first consumer, finance-management, is also pri
 GitHub reusable workflows live in `.github/workflows/` and declare `workflow_call`.
 A product caller can reference the shared Actions workflow at an immutable published commit.
 This follows [GitHub's reuse model](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows).
-The Actions revision is published; bind the kit placeholder to its reviewed
-published commit before creating a product caller. `actions/.github/workflows/sdlc-executor.yml`
+Both workflow and kit revisions are published and pinned in the caller template. `actions/.github/workflows/sdlc-executor.yml`
 and [product caller template](../../templates/github-actions/product-sdlc.yml.template)
 separate execution from product ownership.
 
@@ -97,3 +96,22 @@ GitHub I/O; they are not proof of production publication. Multi-repository tasks
 already select their own repository/project ID. Do not split runtime code merely
 for appearance: extract a service or Actions repository when separate releases,
 ownership or consumers justify it.
+
+## Personal activation prerequisites
+
+The first private consumer is connected to Actions revision
+`3f4cfeb8a0e363d237dd6d117d7422b941189667` and kit revision
+`ab4c21894e61e3aca09575cf237e50a154955478`. The registered local runners use
+GitHub Runner 2.337.0, GitHub CLI 2.102.0 and the persistent Python environment.
+The account credential remains in its existing local store. Publishing workflow
+changes uses the already configured SSH identity; its OAuth token lacks workflow
+scope and is sufficient for ordinary delivery/API operations. Earlier CI failed
+on a reused utility directory; each job now clones into its unique runner temp
+directory. Both push and PR checks must pass when they share a required name.
+
+Run the launcher from the actual host terminal: its PID identity check uses that
+host Linux process namespace. A stopped status from another container namespace
+does not establish that the host runner stopped. Confirm connectivity through
+GitHub runner status. Agents start only through an explicit manual task request;
+there is no recurring model usage. A completed task with a closed issue cannot
+be submitted again without a new valid scope/issue.

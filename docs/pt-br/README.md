@@ -71,6 +71,8 @@ Perfis, skills, empacotador, workflow de validação e executor local inicial es
 implementados. Os 26 papéis podem ser escolhidos em tarefas sequenciais limitadas. Descoberta
 nativa nos clientes, agendamento autônomo de produto e plugins ainda exigem
 integração. Adaptadores de entrega e workflows Actions compartilhados estão
-implementados; ativação remota exige revisão publicada, runner e configuração
-do produto. Veja [entrega e Actions](delivery-and-actions.md). Validar formatos dos
+implementados e ativados para o finance-management privado em dois runners locais.
+O fluxo real desenvolvedor → checks → QA → revisão → PR → CI → merge → Docker passou.
+Veja a [avaliação do produto](../../evaluations/finance-management-delivery.json) e
+[entrega e Actions](delivery-and-actions.md). Validar formatos dos
 provedores não comprova a qualidade dos agentes.
