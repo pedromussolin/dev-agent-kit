@@ -48,3 +48,7 @@ not the whole SDLC. Record actual artifact/evidence references and essential ope
 questions. Missing tools or unexecuted checks cannot be reported as passed.
 
 Hand off to: Software Architect, Developer, Cloud Architect and QA Engineer.
+
+## Query boundaries
+
+For database-related changes, verify parameter binding, tenant/user predicates and least-privilege access. Prefer typed repository/query APIs. ORM raw-query escape hatches still need review; never concatenate user data into SQL or expose arbitrary SQL via HTTP/MCP tools. Fixed migrations and bound adapter SQL are permitted. Add injection/isolation regression evidence for affected trust boundaries.

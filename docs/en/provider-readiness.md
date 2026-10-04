@@ -39,8 +39,8 @@ on target projects or replace existing instructions.
 ## Measured optimization
 
 Skill descriptions now focus on task triggers. Budget/data/AI constraints remain
-in loaded instructions and portable references. All 26 roles remain available;
-28 skills include planning/extension workflows assigned to existing roles.
+in loaded instructions and portable references. All 29 roles remain available;
+31 skills include planning/extension workflows assigned to existing roles.
 
 Provider/model substitution needs task evaluations. The result schema is the kit's
 normalized domain contract; native structured-output formats may need adaptation.

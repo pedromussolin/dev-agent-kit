@@ -4,7 +4,7 @@
 
 Version 0.2 runs a configured sequence of planning roles → implementation → actual
 checks → verification roles → delivery. Developer, QA and technical reviewer form
-the default flow. All 26 registered roles can be selected; one implementation stage
+the default flow. All 29 registered roles can be selected; one implementation stage
 and both QA and review remain mandatory. Delivery can create a PR, wait for remote
 CI, merge and deploy according to the task. See [delivery and Actions](delivery-and-actions.md).
 

@@ -33,6 +33,8 @@ Identifique a tarefa atual na tabela abaixo e consulte **APENAS** os arquivos li
 
 ---
 
+| **Qualidade de código / Contratos de dados / Paridade MCP / Aprendizado de incidentes** | `003`, `007`, `009`, `012`, `017` | Gates reais de qualidade, parâmetros SQL, interfaces de persistência, capacidades MCP e regressões delimitadas. |
+
 ## Resumo Breve de Cada Regra
 
 - **`001-git-workflow.md`**: Git flow, nomes de branches (`feature/ID-desc`), commits imperativos.
@@ -53,3 +55,5 @@ Identifique a tarefa atual na tabela abaixo e consulte **APENAS** os arquivos li
 - **`015-local-data-ai-policy.md`**: Plataforma local, teto de infraestrutura, IA com orçamento separado, dados e avaliações.
 
 - **`016-modularity-planning-governance.md`**: Integrações substituíveis, planejamento por evidências, compatibilidade e crescimento comercial.
+
+- **`017-quality-data-api-contracts.md`**: Qualidade verificável, limites de dados/API/MCP e aprendizado de incidentes.

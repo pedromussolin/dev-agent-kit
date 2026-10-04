@@ -11,7 +11,9 @@ dependencies = ["jsonschema>=4.10,<5"]
 
 [project.optional-dependencies]
 monitor = ["fastapi==0.142.2", "uvicorn==0.54.0"]
-test = ["httpx==0.28.1"]
+browser = ["playwright==1.63.0"]
+mcp = ["mcp==2.3.0"]
+test = ["httpx==0.28.1", "mcp==2.3.0", "ruff==0.16.10"]
 
 [project.scripts]
 dev-agent-kit = "dev_agent_kit.cli:main"
@@ -20,4 +22,12 @@ dev-agent-kit = "dev_agent_kit.cli:main"
 include = ["dev_agent_kit*"]
 
 [tool.setuptools.package-data]
-dev_agent_kit = ["assets/*.html"]
+dev_agent_kit = ["assets/*.html", "assets/*.js", "assets/*.css"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+include = ["dev_agent_kit/**/*.py", "scripts/*.py", "tests/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

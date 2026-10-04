@@ -6,9 +6,9 @@ import difflib
 import fnmatch
 import hashlib
 import json
-from pathlib import Path
 import shutil
 import subprocess
+from pathlib import Path
 
 from .contracts import ExecutionError, fingerprint, local_path
 
@@ -16,7 +16,9 @@ from .contracts import ExecutionError, fingerprint, local_path
 def git(repository: Path, *args: str) -> str:
     """Run a bounded Git operation and return safe diagnostic categories."""
     try:
-        result = subprocess.run(["git", "-C", str(repository), *args], capture_output=True, text=True, timeout=30)
+        result = subprocess.run(
+            ["git", "-C", str(repository), *args], capture_output=True, text=True, timeout=30
+        )
     except (OSError, subprocess.TimeoutExpired) as error:
         raise ExecutionError("workspace_error", "Git operation unavailable or timed out") from error
     if result.returncode:
@@ -26,7 +28,9 @@ def git(repository: Path, *args: str) -> str:
 
 def files(repository: Path) -> list[str]:
     """Inspect tracked/untracked project files, excluding ignored local credentials/caches."""
-    names = set(git(repository, "ls-files", "-z", "--cached", "--others", "--exclude-standard").split("\0"))
+    names = set(
+        git(repository, "ls-files", "-z", "--cached", "--others", "--exclude-standard").split("\0")
+    )
     names.discard("")
     return sorted(name for name in names if local_path(repository, name).is_file())
 
@@ -37,8 +41,13 @@ def source_manifest(repository: Path) -> dict[str, dict]:
     for name in files(repository):
         path = local_path(repository, name)
         if path.name == ".env" or (path.name.startswith(".env.") and path.name != ".env.example"):
-            raise ExecutionError("unsafe_input", "Secret-bearing environment files cannot enter a source snapshot")
-        result[name] = {"sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "executable": bool(path.stat().st_mode & 0o111)}
+            raise ExecutionError(
+                "unsafe_input", "Secret-bearing environment files cannot enter a source snapshot"
+            )
+        result[name] = {
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "executable": bool(path.stat().st_mode & 0o111),
+        }
     return result
 
 
@@ -46,18 +55,29 @@ def current_revision(repository: Path, base_revision: str) -> str:
     """Include Git identity in source evidence; commits/branch changes are not authorized."""
     head = git(repository, "rev-parse", "HEAD").strip()
     if head != base_revision:
-        raise ExecutionError("scope_violation", "Agent workspace HEAD changed outside the executor delivery stage")
+        raise ExecutionError(
+            "scope_violation", "Agent workspace HEAD changed outside the executor delivery stage"
+        )
     return fingerprint({"head": head, "files": source_manifest(repository)})
 
 
 def prepare(task: dict, workspace: Path, run_directory: Path) -> str:
     """Snapshot authorized uncommitted inputs without modifying the source checkout."""
     repository = Path(task["repository"])
-    resolved = git(repository, "rev-parse", "--verify", f"{task['base_revision']}^{{commit}}").strip()
+    resolved = git(
+        repository, "rev-parse", "--verify", f"{task['base_revision']}^{{commit}}"
+    ).strip()
     if resolved != task["base_revision"]:
-        raise ExecutionError("invalid_task", "Supply the exact base commit, not a mutable branch name")
-    if not task["policy"]["include_working_tree"] and git(repository, "status", "--porcelain").strip():
-        raise ExecutionError("dirty_repository", "Authorize a working-tree snapshot or provide a clean repository")
+        raise ExecutionError(
+            "invalid_task", "Supply the exact base commit, not a mutable branch name"
+        )
+    if (
+        not task["policy"]["include_working_tree"]
+        and git(repository, "status", "--porcelain").strip()
+    ):
+        raise ExecutionError(
+            "dirty_repository", "Authorize a working-tree snapshot or provide a clean repository"
+        )
     before = source_manifest(repository) if task["policy"]["include_working_tree"] else None
     git(repository, "worktree", "add", "--detach", str(workspace), resolved)
     if before is not None:
@@ -69,7 +89,9 @@ def prepare(task: dict, workspace: Path, run_directory: Path) -> str:
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(local_path(repository, name), target)
         if before != source_manifest(repository):
-            raise ExecutionError("input_changed", "Source changed while preparing the isolated snapshot")
+            raise ExecutionError(
+                "input_changed", "Source changed while preparing the isolated snapshot"
+            )
     baseline = run_directory / "baseline"
     baseline.mkdir(mode=0o700)
     manifest = source_manifest(workspace)
@@ -85,9 +107,15 @@ def changes(workspace: Path, run_directory: Path, allowed_paths: list[str]) -> l
     """Check the complete task diff rather than trusting a model's file list."""
     baseline = json.loads((run_directory / "baseline.json").read_text())
     current = source_manifest(workspace)
-    changed = sorted(name for name in baseline.keys() | current.keys() if baseline.get(name) != current.get(name))
-    if any(not any(fnmatch.fnmatchcase(name, pattern) for pattern in allowed_paths) for name in changed):
-        raise ExecutionError("scope_violation", "A changed file is outside the task's allowed paths")
+    changed = sorted(
+        name for name in baseline.keys() | current.keys() if baseline.get(name) != current.get(name)
+    )
+    if any(
+        not any(fnmatch.fnmatchcase(name, pattern) for pattern in allowed_paths) for name in changed
+    ):
+        raise ExecutionError(
+            "scope_violation", "A changed file is outside the task's allowed paths"
+        )
     patch = []
     for name in changed:
         old = local_path(run_directory / "baseline", name)
@@ -95,9 +123,14 @@ def changes(workspace: Path, run_directory: Path, allowed_paths: list[str]) -> l
         old_bytes = old.read_bytes() if old.exists() else b""
         new_bytes = new.read_bytes() if new.exists() else b""
         try:
-            patch.extend(difflib.unified_diff(old_bytes.decode().splitlines(keepends=True), new_bytes.decode().splitlines(keepends=True),
-                                             fromfile=f"a/{name}" if old.exists() else "/dev/null",
-                                             tofile=f"b/{name}" if new.exists() else "/dev/null"))
+            patch.extend(
+                difflib.unified_diff(
+                    old_bytes.decode().splitlines(keepends=True),
+                    new_bytes.decode().splitlines(keepends=True),
+                    fromfile=f"a/{name}" if old.exists() else "/dev/null",
+                    tofile=f"b/{name}" if new.exists() else "/dev/null",
+                )
+            )
         except UnicodeDecodeError:
             patch.append(f"Binary file changed: {name}\n")
     (run_directory / "task.patch").write_text("".join(patch))

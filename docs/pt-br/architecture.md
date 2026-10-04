@@ -20,7 +20,7 @@ A automação deve ser observável e permitir recuperação. Tarefas são unidad
 execução dentro desse ciclo.
 
 O kit agora fornece regras, contratos de papéis, skills portáveis e perfis gerados
-para provedores. O [guia de agentes e skills](agents-and-skills.md) lista os 26 papéis,
+para provedores. O [guia de agentes e skills](agents-and-skills.md) lista os 29 papéis,
 incluindo especialistas de design, segurança, cloud, DevOps, banco e tecnologias.
 O executor inicial acrescenta um contrato de execução ao redor dessas instruções.
 Adicionar prompts, por si só, não resolve estado, isolamento, critérios de passagem

@@ -4,7 +4,7 @@
 
 A versão 0.2 executa uma sequência configurada de planejamento → implementação →
 checks reais → verificações independentes → entrega. O padrão usa desenvolvedor,
-QA e revisor técnico. Os 26 papéis cadastrados podem participar; uma implementação,
+QA e revisor técnico. Os 29 papéis cadastrados podem participar; uma implementação,
 QA e revisão continuam obrigatórios. A entrega pode criar PR, aguardar CI remoto,
 fazer merge e deploy conforme a tarefa. Consulte [entrega e Actions](delivery-and-actions.md).
 

@@ -43,8 +43,8 @@ aos projetos de destino pelo empacotador. Configurações existentes são preser
 
 Descrições de skills ficaram focadas no gatilho da tarefa. Restrições de orçamento,
 dados e IA continuam no corpo e nas referências portáveis, carregadas com o workflow.
-O catálogo mantém todos os 26 papéis; sessões e tarefas escolhem quais usar. Hoje
-há 28 skills porque planejamento e desenho de extensões complementam papéis existentes.
+O catálogo mantém todos os 29 papéis; sessões e tarefas escolhem quais usar. Hoje
+há 31 skills porque planejamento e desenho de extensões complementam papéis existentes.
 
 Uma troca de modelo/cliente precisa de avaliação por tarefa. O contrato de resultado
 é o domínio normalizado do kit: cada provedor poderá exigir adaptação para seu formato

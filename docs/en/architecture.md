@@ -19,7 +19,7 @@ transition needs recorded evidence and an explicit execution policy. Automation
 should be observable and recoverable. Tasks are execution units within that lifecycle.
 
 The kit now supplies rules, role contracts, portable skills and generated provider
-profiles. The [agents and skills guide](agents-and-skills.md) lists all 26 roles,
+profiles. The [agents and skills guide](agents-and-skills.md) lists all 29 roles,
 including design, cybersecurity, cloud, DevOps, database and technology specialists.
 The initial executor adds an execution contract around those instructions.
 Adding more prompts alone does not provide state, task isolation, quality gates or

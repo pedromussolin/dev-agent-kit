@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import os
 import re
 import signal
 import subprocess
 import tempfile
 import time
+from dataclasses import dataclass
 from pathlib import Path
 
 from .contracts import ExecutionError
@@ -27,14 +27,18 @@ class ProcessResult:
 
 def sanitize(text: str) -> str:
     """Redact known secret formats and secret-bearing environment values."""
-    text = re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', text)
-    text = re.sub(r'[\x00-\x08\x0b-\x1f\x7f]', '', text)
+    text = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
+    text = re.sub(r"[\x00-\x08\x0b-\x1f\x7f]", "", text)
     for key, value in os.environ.items():
         if len(value) >= 8 and re.search(r"TOKEN|SECRET|PASSWORD|API_KEY", key, re.I):
             text = text.replace(value, "[REDACTED]")
     text = re.sub(r"\b(?:sk-[A-Za-z0-9_-]{12,}|gh[pousr]_[A-Za-z0-9]{12,})", "[REDACTED]", text)
     text = re.sub(r"(?i)(bearer\s+)[A-Za-z0-9._-]+", r"\1[REDACTED]", text)
-    text = re.sub(r"(?i)((?:api[_-]?key|password|secret|access[_-]?token)\s*[=:]\s*)[^\s,;]+", r"\1[REDACTED]", text)
+    text = re.sub(
+        r"(?i)((?:api[_-]?key|password|secret|access[_-]?token)\s*[=:]\s*)[^\s,;]+",
+        r"\1[REDACTED]",
+        text,
+    )
     return text
 
 
@@ -49,21 +53,34 @@ def safe_value(value):
     return value
 
 
-def execute(argv: list[str], cwd: Path, timeout: float, stdin: str | None = None,
-            max_output_bytes: int = 1_048_576, on_line=None, on_tick=None) -> ProcessResult:
+def execute(
+    argv: list[str],
+    cwd: Path,
+    timeout: float,
+    stdin: str | None = None,
+    max_output_bytes: int = 1_048_576,
+    on_line=None,
+    on_tick=None,
+) -> ProcessResult:
     """Terminate the whole process group on timeout; never invoke a shell wrapper."""
     if timeout <= 0:
         raise ExecutionError("limit_exceeded", "Execution deadline exhausted")
     started = time.monotonic()
     with tempfile.TemporaryFile() as output, tempfile.TemporaryFile() as errors:
         try:
-            process = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.PIPE if stdin is not None else subprocess.DEVNULL,
-                                       stdout=output, stderr=errors, start_new_session=True)
+            process = subprocess.Popen(
+                argv,
+                cwd=cwd,
+                stdin=subprocess.PIPE if stdin is not None else subprocess.DEVNULL,
+                stdout=output,
+                stderr=errors,
+                start_new_session=True,
+            )
         except FileNotFoundError as error:
             raise ExecutionError("tool_unavailable", "Required command is not installed") from error
         timed_out = False
         supplied_input = None if stdin is None else stdin.encode()
-        read_offset, pending = 0, b''
+        read_offset, pending = 0, b""
 
         def drain():
             nonlocal read_offset, pending
@@ -72,11 +89,12 @@ def execute(argv: list[str], cwd: Path, timeout: float, stdin: str | None = None
             data = os.pread(output.fileno(), max_output_bytes + 1, read_offset)
             read_offset += len(data)
             pending += data
-            while b'\n' in pending:
-                line, pending = pending.split(b'\n', 1)
-                on_line(sanitize(line.decode(errors='replace')))
+            while b"\n" in pending:
+                line, pending = pending.split(b"\n", 1)
+                on_line(sanitize(line.decode(errors="replace")))
             if len(pending) > max_output_bytes:
-                raise ExecutionError('output_limit', 'Provider event exceeded capture limit')
+                raise ExecutionError("output_limit", "Provider event exceeded capture limit")
+
         try:
             while True:
                 if on_tick:
@@ -88,10 +106,15 @@ def execute(argv: list[str], cwd: Path, timeout: float, stdin: str | None = None
                     os.killpg(process.pid, signal.SIGKILL)
                     process.communicate()
                     break
-                if os.fstat(output.fileno()).st_size + os.fstat(errors.fileno()).st_size > max_output_bytes:
+                if (
+                    os.fstat(output.fileno()).st_size + os.fstat(errors.fileno()).st_size
+                    > max_output_bytes
+                ):
                     os.killpg(process.pid, signal.SIGKILL)
                     process.communicate()
-                    raise ExecutionError("output_limit", "Command output exceeded its configured capture limit")
+                    raise ExecutionError(
+                        "output_limit", "Command output exceeded its configured capture limit"
+                    )
                 try:
                     process.communicate(supplied_input, timeout=min(0.1, remaining))
                     drain()
@@ -108,6 +131,13 @@ def execute(argv: list[str], cwd: Path, timeout: float, stdin: str | None = None
         stdout = output.read(max_output_bytes + 1)
         stderr = errors.read(max_output_bytes + 1)
         if len(stdout) + len(stderr) > max_output_bytes:
-            raise ExecutionError("output_limit", "Command output exceeded its configured capture limit")
-        return ProcessResult(process.returncode, sanitize(stdout.decode(errors="replace")),
-                             sanitize(stderr.decode(errors="replace")), time.monotonic() - started, timed_out)
+            raise ExecutionError(
+                "output_limit", "Command output exceeded its configured capture limit"
+            )
+        return ProcessResult(
+            process.returncode,
+            sanitize(stdout.decode(errors="replace")),
+            sanitize(stderr.decode(errors="replace")),
+            time.monotonic() - started,
+            timed_out,
+        )

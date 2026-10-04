@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "dev-agent-kit": {
+      "command": "/ABSOLUTE/DEV-AGENT-KIT/.venv/bin/python",
+      "args": ["-m", "dev_agent_kit", "--state-dir", "/ABSOLUTE/PRIVATE/STATE", "mcp"],
+      "cwd": "/ABSOLUTE/DEV-AGENT-KIT"
+    },
+    "finance-management": {
+      "command": "/ABSOLUTE/FINANCE-MANAGEMENT/.venv/bin/python",
+      "args": ["/ABSOLUTE/FINANCE-MANAGEMENT/scripts/finance_mcp.py", "--base-url", "http://127.0.0.1:8787", "--password-file", "/ABSOLUTE/PRIVATE/FINANCE-PASSWORD"]
+    }
+  }
+}

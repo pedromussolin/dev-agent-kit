@@ -2,8 +2,8 @@
 
 import copy
 import json
-from pathlib import Path
 import unittest
+from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
@@ -21,10 +21,21 @@ class NativeSchemaTests(unittest.TestCase):
         native = native_output_schema(canonical)
         self.assertEqual(before, canonical)
         Draft202012Validator.check_schema(native)
-        result = {"schema_version": 1, "task_id": "local-fixture", "role_id": "developer", "status": "completed",
-                  "summary": "Fixture result", "artifacts": [{"kind": "diff", "reference": "fixture://diff", "revision": None}],
-                  "evidence": [{"claim": "Fixture assertion", "reference": "fixture://check", "result": "observed"}],
-                  "blocking_findings": [], "open_questions": [], "revision": None, "decisions": []}
+        result = {
+            "schema_version": 1,
+            "task_id": "local-fixture",
+            "role_id": "developer",
+            "status": "completed",
+            "summary": "Fixture result",
+            "artifacts": [{"kind": "diff", "reference": "fixture://diff", "revision": None}],
+            "evidence": [
+                {"claim": "Fixture assertion", "reference": "fixture://check", "result": "observed"}
+            ],
+            "blocking_findings": [],
+            "open_questions": [],
+            "revision": None,
+            "decisions": [],
+        }
         Draft202012Validator(native).validate(result)
         result["schema_version"] = 2
         self.assertTrue(list(Draft202012Validator(native).iter_errors(result)))
@@ -40,4 +51,5 @@ class NativeSchemaTests(unittest.TestCase):
             elif isinstance(node, list):
                 for child in node:
                     inspect(child)
+
         inspect(native)
