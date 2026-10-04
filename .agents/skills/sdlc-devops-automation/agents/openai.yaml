@@ -1,0 +1,4 @@
+interface:
+  display_name: "DevOps Engineer"
+  short_description: "DevOps Engineer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-devops-automation for the scoped task and return evidence with unresolved questions."

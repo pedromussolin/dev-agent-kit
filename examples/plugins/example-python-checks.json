@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "example-python-checks",
+  "version": "0.1.0",
+  "kind": "stack",
+  "host_protocol": {
+    "major": 1
+  },
+  "capabilities": [
+    "checks.run",
+    "checks.cancel"
+  ],
+  "implementation": {
+    "transport": "in_process",
+    "entrypoint": "example.python_checks:Adapter"
+  },
+  "permissions": {
+    "filesystem": "task_workspace",
+    "network": [],
+    "credential_refs": []
+  },
+  "contracts": {
+    "input": "kit://proposed/check-request/v1",
+    "output": "kit://proposed/check-result/v1"
+  },
+  "configuration": {
+    "schema_ref": "kit://proposed/component-profile/v1"
+  },
+  "conformance": {
+    "suite_ref": "kit://proposed/stack-conformance/v1",
+    "status": "not_run"
+  }
+}

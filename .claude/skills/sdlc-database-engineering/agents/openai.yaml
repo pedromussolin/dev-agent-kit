@@ -1,0 +1,4 @@
+interface:
+  display_name: "Database Administrator"
+  short_description: "Database Administrator workflow and evidence handoff"
+  default_prompt: "Use $sdlc-database-engineering for the scoped task and return evidence with unresolved questions."

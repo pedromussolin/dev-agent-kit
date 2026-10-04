@@ -1,0 +1,4 @@
+interface:
+  display_name: "Software Engineer"
+  short_description: "Software Engineer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-engineering-design for the scoped task and return evidence with unresolved questions."

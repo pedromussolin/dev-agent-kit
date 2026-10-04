@@ -1,0 +1,4 @@
+interface:
+  display_name: "QA Engineer"
+  short_description: "QA Engineer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-quality-assurance for the scoped task and return evidence with unresolved questions."

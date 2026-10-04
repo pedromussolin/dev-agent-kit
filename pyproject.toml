@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dev-agent-kit"
+version = "0.2.0"
+description = "Local, persistent SDLC execution with replaceable agent adapters"
+requires-python = ">=3.11"
+dependencies = ["jsonschema>=4.10,<5"]
+
+[project.optional-dependencies]
+monitor = ["fastapi==0.142.2", "uvicorn==0.54.0"]
+test = ["httpx==0.28.1"]
+
+[project.scripts]
+dev-agent-kit = "dev_agent_kit.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["dev_agent_kit*"]
+
+[tool.setuptools.package-data]
+dev_agent_kit = ["assets/*.html"]

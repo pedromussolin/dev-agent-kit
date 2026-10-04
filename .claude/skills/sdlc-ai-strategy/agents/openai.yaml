@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Strategist"
+  short_description: "SDLC workflow for ai strategist"
+  default_prompt: "Use $sdlc-ai-strategy to complete the assigned task with evidence."

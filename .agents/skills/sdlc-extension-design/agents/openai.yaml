@@ -1,0 +1,4 @@
+interface:
+  display_name: "Extension Design"
+  short_description: "SDLC workflow for extension design"
+  default_prompt: "Use $sdlc-extension-design to complete the assigned task with documented outcomes."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delivery Planner"
+  short_description: "Delivery Planner workflow and evidence handoff"
+  default_prompt: "Use $sdlc-delivery-planning for the scoped task and return evidence with unresolved questions."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Engineer"
+  short_description: "SDLC workflow for context engineer"
+  default_prompt: "Use $sdlc-context-engineering to complete the assigned task with evidence."

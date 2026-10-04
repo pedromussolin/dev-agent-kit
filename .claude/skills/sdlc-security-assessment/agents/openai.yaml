@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cybersecurity Engineer"
+  short_description: "Cybersecurity Engineer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-security-assessment for the scoped task and return evidence with unresolved questions."

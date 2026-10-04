@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cloud Architect"
+  short_description: "Cloud Architect workflow and evidence handoff"
+  default_prompt: "Use $sdlc-cloud-design for the scoped task and return evidence with unresolved questions."

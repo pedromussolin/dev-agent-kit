@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-04",
+  "status": "passed_scoped",
+  "task_id": "executor-runbook-handoff",
+  "task_record": "examples/execution/executor-runbook-handoff.json",
+  "run_id": "08ac7c001f7646af95c099968c80946b",
+  "client": {
+    "adapter": "codex-cli",
+    "version": "codex-cli 0.160.0",
+    "auth_mode": "chatgpt",
+    "isolation": "codex_sandbox",
+    "native_discovery": "not_tested",
+    "profile_loading": "explicit_developer_instructions_override"
+  },
+  "base_revision": "50ae70afdb5954bd325eb0d43999d72eef800e0f",
+  "input_fingerprint": "b1b06501cd99b33d174ac8f85035e044a17f83017859b806f6b00ec1de29f38a",
+  "configuration_fingerprint": "60a04820671f66bf04662ee8cc763e9ed77d0e1b0f3d0ccecc083af1ef8b3640",
+  "verified_fingerprint": "3ccbc560d0335cd6aa3c6479ec216d6aac4704cd28d64a7bef646ba94ab6b815",
+  "evidence_current": true,
+  "agent_calls": 3,
+  "attempts": 1,
+  "roles": [
+    {
+      "stage": "implementation",
+      "role_id": "developer",
+      "status": "succeeded",
+      "source_fingerprint": "3ccbc560d0335cd6aa3c6479ec216d6aac4704cd28d64a7bef646ba94ab6b815",
+      "summary": "Updated both guides with actionable first-run checklists, placed report inspection before resume, and clarified illustrative limits. Preserved existing examples, links and implemented boundaries. All required checks passed.",
+      "blocking_findings": [],
+      "usage": {
+        "input_tokens": 394744,
+        "cached_input_tokens": 326272,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6779,
+        "reasoning_output_tokens": 2135
+      },
+      "usage_status": "observed",
+      "cost_brl": null,
+      "cost_status": "unknown",
+      "metadata": {
+        "sandbox": "workspace-write",
+        "duration_seconds": 211.1129890859993,
+        "prompt_sha256": "4a161a376dd26f05576bdb06e59989310fd57b54cfb38fe06d62d759e612719c",
+        "prompt_characters": 29529,
+        "exit_code": 0
+      }
+    },
+    {
+      "stage": "qa",
+      "role_id": "qa-engineer",
+      "status": "succeeded",
+      "source_fingerprint": "3ccbc560d0335cd6aa3c6479ec216d6aac4704cd28d64a7bef646ba94ab6b815",
+      "summary": "Both guides satisfy all five acceptance criteria. Source inspection and supplied check evidence revealed no blocking defects. No files were changed.",
+      "blocking_findings": [],
+      "usage": {
+        "input_tokens": 281517,
+        "cached_input_tokens": 214528,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2694,
+        "reasoning_output_tokens": 423
+      },
+      "usage_status": "observed",
+      "cost_brl": null,
+      "cost_status": "unknown",
+      "metadata": {
+        "sandbox": "read-only",
+        "duration_seconds": 92.98600581400024,
+        "prompt_sha256": "57ad731464cd2905170702eca0128b7b6ab7159248b7a342938c6ed7d6cf57d7",
+        "prompt_characters": 40454,
+        "exit_code": 0
+      }
+    },
+    {
+      "stage": "review",
+      "role_id": "technical-reviewer",
+      "status": "succeeded",
+      "source_fingerprint": "3ccbc560d0335cd6aa3c6479ec216d6aac4704cd28d64a7bef646ba94ab6b815",
+      "summary": "Reviewed the actual diff and execution paths. Both bilingual guides meet the acceptance criteria; no actionable defects or blocking evidence gaps found.",
+      "blocking_findings": [],
+      "usage": {
+        "input_tokens": 399090,
+        "cached_input_tokens": 348288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2117,
+        "reasoning_output_tokens": 293
+      },
+      "usage_status": "observed",
+      "cost_brl": null,
+      "cost_status": "unknown",
+      "metadata": {
+        "sandbox": "read-only",
+        "duration_seconds": 78.72490106999976,
+        "prompt_sha256": "96afd7b43f5fed11fb973f15836465131e50eac8c93b3352d7aed2484bf5f851",
+        "prompt_characters": 40461,
+        "exit_code": 0
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "cli-help",
+      "argv": [
+        "python3",
+        "-m",
+        "dev_agent_kit",
+        "--help"
+      ],
+      "working_directory": ".",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 0.11642939200100955
+    },
+    {
+      "name": "runbook-acceptance",
+      "argv": [
+        "python3",
+        "scripts/check_executor_runbook.py"
+      ],
+      "working_directory": ".",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 0.03235474100074498
+    },
+    {
+      "name": "kit-regression",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "working_directory": ".",
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_seconds": 8.176722780001
+    }
+  ],
+  "guide_sha256": {
+    "docs/en/local-executor.md": "a1959a0723442aa8ebfd463f63860adf537fbee57bdc8cd514a254c70866fc38",
+    "docs/pt-br/local-executor.md": "e74a1fb388672f420e966099427fe547a69695758f8b5320123d49a78bf1b0f2"
+  },
+  "successful_run_usage": {
+    "input_tokens": 1075351,
+    "cached_input_tokens": 889088,
+    "output_tokens": 11590,
+    "reasoning_output_tokens": 2851
+  },
+  "usage_scope": "Successful run only; client cumulative counts include cached input. Interrupted-call usage is unavailable.",
+  "cost_brl": null,
+  "cost_status": "unknown",
+  "model_id": "not_exposed_by_captured_events",
+  "prior_runs": [
+    {
+      "id": "88a50106fad241b38ae04e47f1584a1f",
+      "status": "failed",
+      "calls": 2,
+      "error": {
+        "category": "provider_failure",
+        "message": "Codex returned a nonzero exit; inspect the sanitized failure artifact"
+      }
+    },
+    {
+      "id": "bc43ce9973f2493a8b353e9b6cdd3a1b",
+      "status": "failed",
+      "calls": 1,
+      "error": {
+        "category": "timeout",
+        "message": "Codex assignment exceeded its deadline"
+      }
+    },
+    {
+      "id": "f152fe34d58044d89875fcff3023a9ad",
+      "status": "failed",
+      "calls": 3,
+      "error": {
+        "category": "timeout",
+        "message": "Codex assignment exceeded its deadline"
+      }
+    }
+  ],
+  "prior_failure_notes": [
+    "Managed sandbox prevented Codex configuration initialization; retry required host authorization while retaining child sandboxes.",
+    "Native output rejected untyped const/enum nodes; translation fixed and regression tested.",
+    "240-second assignments timed out; drafts were preserved. The new focused handoff task uses 600 seconds per assignment and a separate bounded run."
+  ],
+  "recovery_check": {
+    "resume_existing_success": "passed",
+    "calls_before": 3,
+    "calls_after": 3
+  },
+  "local_artifacts": {
+    "default_state_relative_directory": "runs/08ac7c001f7646af95c099968c80946b",
+    "report_filename": "report.json",
+    "patch_filename": "task.patch",
+    "event_database_filename": "state.sqlite3"
+  },
+  "not_validated": [
+    "Automatic native discovery",
+    "Other 23 roles",
+    "Claude Code/Copilot runtime",
+    "Actual Go checks: tool absent",
+    "Code-change task behavior",
+    "Monetary billing caps",
+    "Comparative token/cost optimization",
+    "Distributed workers, planning sessions, plugin loading, PR/CI/merge/deploy"
+  ]
+}

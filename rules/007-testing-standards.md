@@ -2,7 +2,11 @@
 
 ## 1. Padrão de Organização para Backend
 
-No backend, **todos os testes devem ser mantidos em uma pasta dedicada `tests/` na raiz do projeto**, separando por tipo de teste para não poluir o diretório `src/`:
+Em backends Python e JavaScript/TypeScript, prefira uma pasta dedicada `tests/`
+para separar testes por tipo, respeitando a organização já adotada pelo projeto.
+Em outras linguagens, siga a convenção idiomática: Go mantém testes `*_test.go`
+junto ao pacote; Rust usa testes de unidade no módulo e integração em `tests/`;
+Java usa normalmente `src/test/`. Consulte a regra `012` para escolher ferramentas.
 
 ```text
 backend-project/

@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-04",
+  "status": "passed_scoped",
+  "run_id": "fa44f7474d2f4bad857984d9d10620a8",
+  "task_id": "actions-check-runner-invalid-argv",
+  "task_record": "examples/execution/actions-check-runner-invalid-argv.json",
+  "adapter": "codex-app-server",
+  "client_version": "0.160.0",
+  "base_revision": "4b45dbca4986e076a098263fea05535f47762819",
+  "configuration_fingerprint": "083757fb27be9e792bb7acfd2c899016b8330436fc5ff66712c4c8a940309624",
+  "verified_fingerprint": "e0e90d075df36701bb30fb01a427816e061771f7c6d1fac4b6b2c8c5a8cf7661",
+  "agent_calls": 3,
+  "attempts": 1,
+  "budget": {
+    "project_calls_today": 5,
+    "project_tokens_today": 332166,
+    "run_tokens": 237190,
+    "unknown_usage_invocations": 0,
+    "day_utc": "2026-10-04"
+  },
+  "limits": {
+    "max_attempts": 2,
+    "max_agent_calls": 6,
+    "agent_timeout_seconds": 600,
+    "max_run_seconds": 2400,
+    "max_context_characters": 40000,
+    "max_tool_calls": 8,
+    "max_repeated_tool_calls": 3,
+    "idle_timeout_seconds": 180,
+    "max_tokens_per_agent": 100000,
+    "max_total_tokens": 250000,
+    "max_project_tokens_per_day": 500000,
+    "max_project_calls_per_day": 20,
+    "max_no_progress_attempts": 2
+  },
+  "roles": [
+    {
+      "stage": "implementation",
+      "status": "succeeded",
+      "role_id": "developer",
+      "summary": "Added pre-execution rejection of NUL-containing argv strings and empty executables. Added regression coverage for preventing earlier side effects and preserving empty later arguments.",
+      "source_fingerprint": "e0e90d075df36701bb30fb01a427816e061771f7c6d1fac4b6b2c8c5a8cf7661",
+      "usage": {
+        "input_tokens": 95068,
+        "cached_input_tokens": 73600,
+        "output_tokens": 2019,
+        "reasoning_output_tokens": 719,
+        "total_tokens": 97087
+      },
+      "metadata": {
+        "adapter": "codex-app-server",
+        "model": "gpt-6.1-sol",
+        "sandbox": "workspaceWrite",
+        "duration_seconds": 73.34029040000314,
+        "prompt_characters": 3797,
+        "exit_code": 0
+      },
+      "blocking_findings": []
+    },
+    {
+      "stage": "qa",
+      "status": "succeeded",
+      "role_id": "qa-engineer",
+      "summary": "QA accepts the supplied change: validation prevents earlier check side effects while preserving empty later arguments. Supplied regression checks pass. Technical Reviewer acceptance remains unverified.",
+      "source_fingerprint": "e0e90d075df36701bb30fb01a427816e061771f7c6d1fac4b6b2c8c5a8cf7661",
+      "usage": {
+        "input_tokens": 77423,
+        "cached_input_tokens": 54784,
+        "output_tokens": 1481,
+        "reasoning_output_tokens": 262,
+        "total_tokens": 78904
+      },
+      "metadata": {
+        "adapter": "codex-app-server",
+        "model": "gpt-6.1-sol",
+        "sandbox": "readOnly",
+        "duration_seconds": 53.73011212200072,
+        "prompt_characters": 9985,
+        "exit_code": 0
+      },
+      "blocking_findings": []
+    },
+    {
+      "stage": "review",
+      "status": "succeeded",
+      "role_id": "technical-reviewer",
+      "summary": "Technical review accepts the supplied revision. No blocking defects found: validation rejects empty executables and NUL-containing arguments before execution, while preserving empty later arguments.",
+      "source_fingerprint": "e0e90d075df36701bb30fb01a427816e061771f7c6d1fac4b6b2c8c5a8cf7661",
+      "usage": {
+        "input_tokens": 59775,
+        "cached_input_tokens": 20224,
+        "output_tokens": 1424,
+        "reasoning_output_tokens": 344,
+        "total_tokens": 61199
+      },
+      "metadata": {
+        "adapter": "codex-app-server",
+        "model": "gpt-6.1-sol",
+        "sandbox": "readOnly",
+        "duration_seconds": 55.37503388999903,
+        "prompt_characters": 10779,
+        "exit_code": 0
+      },
+      "blocking_findings": []
+    }
+  ],
+  "checks": [
+    {
+      "component": "actions",
+      "language": "python",
+      "name": "unit",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "working_directory": ".",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_complete_validation_precedes_side_effects (test_run_checks.RunChecksTests.test_complete_validation_precedes_side_effects) ... ok\ntest_duplicate_json_fields_are_rejected_before_execution (test_run_checks.RunChecksTests.test_duplicate_json_fields_are_rejected_before_execution) ... ok\ntest_failure_stops_later_check (test_run_checks.RunChecksTests.test_failure_stops_later_check) ... ok\ntest_invalid_argv_has_no_side_effects_and_empty_argument_is_valid (test_run_checks.RunChecksTests.test_invalid_argv_has_no_side_effects_and_empty_argument_is_valid) ... ok\ntest_invalid_json_has_no_side_effects (test_run_checks.RunChecksTests.test_invalid_json_has_no_side_effects) ... ok\ntest_list_bounds_and_type (test_run_checks.RunChecksTests.test_list_bounds_and_type) ... ok\ntest_missing_file_and_usage (test_run_checks.RunChecksTests.test_missing_file_and_usage) ... ok\ntest_shell_characters_are_literal_arguments (test_run_checks.RunChecksTests.test_shell_characters_are_literal_arguments) ... ok\ntest_success_inherits_working_directory (test_run_checks.RunChecksTests.test_success_inherits_working_directory) ... ok\ntest_timeout_stops_later_check (test_run_checks.RunChecksTests.test_timeout_stops_later_check) ... ok\ntest_unavailable_command_stops_later_check (test_run_checks.RunChecksTests.test_unavailable_command_stops_later_check) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 2.427s\n\nOK\n",
+      "duration_seconds": 2.508563552997657,
+      "timed_out": false
+    },
+    {
+      "component": "actions",
+      "language": "python",
+      "name": "example",
+      "argv": [
+        "python3",
+        "scripts/run_checks.py",
+        "checks.example.json"
+      ],
+      "working_directory": ".",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_complete_validation_precedes_side_effects (test_run_checks.RunChecksTests.test_complete_validation_precedes_side_effects) ... ok\ntest_duplicate_json_fields_are_rejected_before_execution (test_run_checks.RunChecksTests.test_duplicate_json_fields_are_rejected_before_execution) ... ok\ntest_failure_stops_later_check (test_run_checks.RunChecksTests.test_failure_stops_later_check) ... ok\ntest_invalid_argv_has_no_side_effects_and_empty_argument_is_valid (test_run_checks.RunChecksTests.test_invalid_argv_has_no_side_effects_and_empty_argument_is_valid) ... ok\ntest_invalid_json_has_no_side_effects (test_run_checks.RunChecksTests.test_invalid_json_has_no_side_effects) ... ok\ntest_list_bounds_and_type (test_run_checks.RunChecksTests.test_list_bounds_and_type) ... ok\ntest_missing_file_and_usage (test_run_checks.RunChecksTests.test_missing_file_and_usage) ... ok\ntest_shell_characters_are_literal_arguments (test_run_checks.RunChecksTests.test_shell_characters_are_literal_arguments) ... ok\ntest_success_inherits_working_directory (test_run_checks.RunChecksTests.test_success_inherits_working_directory) ... ok\ntest_timeout_stops_later_check (test_run_checks.RunChecksTests.test_timeout_stops_later_check) ... ok\ntest_unavailable_command_stops_later_check (test_run_checks.RunChecksTests.test_unavailable_command_stops_later_check) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 2.431s\n\nOK\n",
+      "duration_seconds": 2.571380041001248,
+      "timed_out": false
+    }
+  ],
+  "recovery_check": {
+    "status": "passed",
+    "calls_before": 3,
+    "calls_after": 3
+  },
+  "cost_brl": null,
+  "cost_status": "unknown",
+  "token_savings_comparison": "not_established; different tasks and contexts",
+  "not_validated": [
+    "Other 23 roles in live provider calls",
+    "Claude/Copilot execution",
+    "Hosted GitHub delivery",
+    "Provider monetary billing cap",
+    "Go toolchain execution"
+  ],
+  "file_sha256": {
+    "scripts/run_checks.py": "f3bdf1f5f1982957b3f199058e4c5762185de2a0873a41e8b3b684aafcc78bb7",
+    "tests/test_run_checks.py": "38f599915c8dea3189c51e0d663d3289000346c1402298e42700012562879f96"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Engineer"
+  short_description: "SDLC workflow for data engineer"
+  default_prompt: "Use $sdlc-data-engineering to complete the assigned task with evidence."

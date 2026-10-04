@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "session_id": "example-session",
+  "objective": "Evaluate whether searchable execution logs justify a new integration.",
+  "status": "completed",
+  "participants": [
+    "sdlc-coordinator",
+    "site-reliability-engineer",
+    "product-owner"
+  ],
+  "evidence_refs": [
+    "example://local-log-investigation"
+  ],
+  "decisions": [
+    {
+      "id": "example-decision",
+      "state": "proposed",
+      "rationale": "Compare local JSON logs with a small Loki pilot before adding a mandatory service.",
+      "alternatives": [
+        "Keep local JSON logs",
+        "Run an optional Loki pilot"
+      ],
+      "evidence_refs": [
+        "example://local-log-investigation"
+      ],
+      "authority_ref": null
+    }
+  ],
+  "actions": [
+    {
+      "id": "example-action",
+      "goal": "Measure investigation time and resource use on representative runs.",
+      "owner_role": "site-reliability-engineer",
+      "acceptance_criteria": [
+        "Report baseline versus pilot investigation time",
+        "Report local memory and storage use"
+      ],
+      "dependencies": [],
+      "decision_refs": [
+        "example-decision"
+      ],
+      "issue_ref": null,
+      "state": "proposed"
+    }
+  ],
+  "open_questions": [
+    "What retention is required?"
+  ],
+  "resource_limits": {
+    "max_rounds": 2,
+    "max_calls": 6,
+    "timeout_seconds": 600,
+    "ai_budget_ref": null
+  }
+}

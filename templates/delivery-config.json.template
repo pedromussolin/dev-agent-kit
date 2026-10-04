@@ -1,0 +1,30 @@
+{
+  "repository": "pedromussolin/finance-management",
+  "issue_number": "<REAL_OPEN_ISSUE_NUMBER>",
+  "base_branch": "main",
+  "branch_description": "implement-authorized-product-task",
+  "required_checks": [
+    "<ACTUAL_REQUIRED_CI_CHECK_NAME>"
+  ],
+  "merge_method": "squash",
+  "ci_timeout_seconds": 1200,
+  "deployment": {
+    "environment": "local-docker",
+    "argv": [
+      "python3",
+      "scripts/local_release.py",
+      "deploy"
+    ],
+    "smoke_argv": [
+      "python3",
+      "scripts/local_release.py",
+      "smoke"
+    ],
+    "rollback_argv": [
+      "python3",
+      "scripts/local_release.py",
+      "rollback"
+    ],
+    "timeout_seconds": 900
+  }
+}

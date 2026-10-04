@@ -1,0 +1,8 @@
+*
+!Dockerfile.monitor
+!pyproject.toml
+!requirements-monitor.lock
+!dev_agent_kit/
+!dev_agent_kit/**
+**/__pycache__/
+**/*.pyc

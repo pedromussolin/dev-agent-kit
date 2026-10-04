@@ -1,10 +1,8 @@
-# Diretrizes Globais do Ambiente
+# Project instructions
 
-## Regras Obrigatórias de Projeto
-Antes de responder a qualquer comando, gerar scripts, efetuar commits ou criar branches, você DEVE ler e seguir estritamente todas as regras definidas nos ficheiros `.md` dentro do diretório:
+Read `AGENTS.md` and `rules/INDEX.md`, then load the rules relevant to the task.
+Respond to the user in Portuguese when appropriate. Keep source code and internal
+artifacts in English as specified in `rules/003-language-standards.md`.
 
-@docs/rules/*.md
-
-## Instruções Gerais para o Assistente
-- Responda preferencialmente em Português.
-- Ao sugerir comandos do Git (como criar branches ou comitar), valide sempre se o nome da branch e a mensagem do commit cumprem rigorosamente os padrões definidos em `docs/regras/01-git-workflow.md`.
+The canonical rules live in `rules/`. Select tools from the target project's
+manifests and configuration. Follow the same SDLC gates for every supported stack.

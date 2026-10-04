@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-10-04",
+  "status": "passed_guard_failed_task",
+  "run_id": "a757a416bdc1432295b6041975cd39a7",
+  "task_id": "bounded-stack-discovery",
+  "adapter": "codex-app-server",
+  "client_version": "0.160.0",
+  "configured_agent_token_limit": 100000,
+  "observed_tokens_at_interruption": 123411,
+  "agent_calls": 1,
+  "task_error": {
+    "category": "token_budget_exhausted",
+    "message": "Assignment observed token threshold reached"
+  },
+  "qa_review_started": false,
+  "provider_billing_cap": false,
+  "note": "Observed usage crossed threshold during an in-flight request; partial drafts preserved. Task was not accepted."
+}

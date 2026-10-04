@@ -1,0 +1,4 @@
+interface:
+  display_name: "Planning Session"
+  short_description: "SDLC workflow for planning session"
+  default_prompt: "Use $sdlc-planning-session to complete the assigned task with documented outcomes."

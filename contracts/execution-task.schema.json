@@ -1,0 +1,398 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "project_id",
+    "repository",
+    "base_revision",
+    "goal",
+    "acceptance_criteria",
+    "context_files",
+    "components",
+    "agent",
+    "limits",
+    "policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 1
+    },
+    "base_revision": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "context_files": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "language",
+          "working_directory",
+          "checks"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "language": {
+            "type": "string",
+            "minLength": 1
+          },
+          "working_directory": {
+            "type": "string",
+            "minLength": 1
+          },
+          "checks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "argv",
+                "timeout_seconds"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "argv": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "timeout_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adapter",
+        "auth_mode"
+      ],
+      "properties": {
+        "adapter": {
+          "enum": [
+            "codex-cli",
+            "codex-app-server"
+          ]
+        },
+        "auth_mode": {
+          "const": "chatgpt"
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_attempts",
+        "max_agent_calls",
+        "agent_timeout_seconds",
+        "max_run_seconds",
+        "max_context_characters"
+      ],
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "max_agent_calls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60
+        },
+        "agent_timeout_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_run_seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_context_characters": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 100000
+        },
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 30
+        },
+        "max_repeated_tool_calls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 3
+        },
+        "idle_timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1800,
+          "default": 90
+        },
+        "max_total_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000,
+          "default": 200000
+        },
+        "max_tokens_per_agent": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000,
+          "default": 80000
+        },
+        "max_project_tokens_per_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000000,
+          "default": 500000
+        },
+        "max_project_calls_per_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "default": 20
+        },
+        "max_no_progress_attempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "default": 2
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "include_working_tree",
+        "delivery",
+        "allowed_paths",
+        "authorization_reference",
+        "ai_spending",
+        "infrastructure_monthly_cap_brl"
+      ],
+      "properties": {
+        "include_working_tree": {
+          "type": "boolean"
+        },
+        "delivery": {
+          "enum": [
+            "diff",
+            "pull_request",
+            "merge",
+            "deploy"
+          ]
+        },
+        "allowed_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authorization_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ai_spending": {
+          "const": "existing_chatgpt_account"
+        },
+        "infrastructure_monthly_cap_brl": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "workflow": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 40,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "role_id",
+          "kind"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "role_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "kind": {
+            "enum": [
+              "plan",
+              "implement",
+              "verify"
+            ]
+          }
+        }
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "issue_number",
+        "base_branch",
+        "branch_description",
+        "required_checks",
+        "merge_method",
+        "ci_timeout_seconds"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "base_branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "branch_description": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+){2,5}$"
+        },
+        "required_checks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "merge_method": {
+          "enum": [
+            "squash",
+            "merge",
+            "rebase"
+          ]
+        },
+        "ci_timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600
+        },
+        "deployment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "environment",
+            "argv",
+            "smoke_argv",
+            "rollback_argv",
+            "timeout_seconds"
+          ],
+          "properties": {
+            "environment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "argv": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "smoke_argv": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "rollback_argv": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "timeout_seconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1800
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local SDLC execution task",
+  "description": "An actual local task record is a task ID source; do not manufacture remote issue numbers."
+}

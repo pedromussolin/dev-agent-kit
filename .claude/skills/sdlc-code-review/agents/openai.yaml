@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Reviewer"
+  short_description: "Technical Reviewer workflow and evidence handoff"
+  default_prompt: "Use $sdlc-code-review for the scoped task and return evidence with unresolved questions."

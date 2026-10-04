@@ -99,4 +99,4 @@ Todas as marcações pendentes no código **devem ser vinculadas ao ID de uma Is
 
 ## 5. Idioma da Documentação no Código
 - **Regra Absoluta:** Todas as docstrings, JSDoc, comentários inline e marcações (`TODO`, `FIXME`) DEVEM ser escritos **100% em Inglês**, sem exceções.
-- Para detalhes sobre a documentação externa (arquivos Markdown em `docs/`), consulte a regra `03-language-standards.md`.
+- Para detalhes sobre a documentação externa (arquivos Markdown em `docs/`), consulte a regra `003-language-standards.md`.

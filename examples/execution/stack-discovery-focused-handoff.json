@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "task_id": "stack-discovery-focused-handoff",
+  "project_id": "dev-agent-kit",
+  "repository": "/home/pnetto/repos/dev-agent-kit",
+  "base_revision": "50ae70afdb5954bd325eb0d43999d72eef800e0f",
+  "goal": "Finish and verify the preserved stack-discovery draft in dev_agent_kit/stacks.py and tests/unit/test_stack_discovery.py. Read the two files and supplied acceptance script in one focused batch. Check correctness of independent root Python/Go/JS/Rust discovery, lockfile selection, invalid-input diagnostics and metadata-only behavior. Correct actual defects in these two files only. The executor runs the complete declared acceptance, CLI and regression checks after your result; do not duplicate the full regression suite. Return the structured result promptly when the code is ready. The original draft was interrupted by the 100000-token guard and was not accepted; this is an explicit smaller handoff, not an automatic budget reset. Keep tool calls focused and minimal.",
+  "acceptance_criteria": [
+    "The supplied stack discovery acceptance script passes.",
+    "The inspect CLI can describe the kit checkout without running suggested commands.",
+    "Unit tests cover mixed stacks, manager selection and malformed input; existing regression tests pass."
+  ],
+  "context_files": [
+    "examples/execution/check_stack_discovery.py"
+  ],
+  "components": [
+    {
+      "name": "executor",
+      "language": "python",
+      "working_directory": ".",
+      "checks": [
+        {
+          "name": "stack-acceptance",
+          "argv": [
+            "/tmp/dev-agent-kit-runtime-venv/bin/python",
+            "examples/execution/check_stack_discovery.py"
+          ],
+          "timeout_seconds": 30
+        },
+        {
+          "name": "inspect-cli",
+          "argv": [
+            "/tmp/dev-agent-kit-runtime-venv/bin/python",
+            "-m",
+            "dev_agent_kit",
+            "inspect",
+            "."
+          ],
+          "timeout_seconds": 30
+        },
+        {
+          "name": "regression",
+          "argv": [
+            "/tmp/dev-agent-kit-runtime-venv/bin/python",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-v"
+          ],
+          "timeout_seconds": 90
+        }
+      ]
+    }
+  ],
+  "agent": {
+    "adapter": "codex-app-server",
+    "auth_mode": "chatgpt"
+  },
+  "limits": {
+    "max_attempts": 2,
+    "max_agent_calls": 6,
+    "agent_timeout_seconds": 600,
+    "max_run_seconds": 2400,
+    "max_context_characters": 30000,
+    "max_tool_calls": 12,
+    "max_repeated_tool_calls": 3,
+    "idle_timeout_seconds": 180,
+    "max_tokens_per_agent": 100000,
+    "max_total_tokens": 250000,
+    "max_project_tokens_per_day": 1500000,
+    "max_project_calls_per_day": 20,
+    "max_no_progress_attempts": 2
+  },
+  "policy": {
+    "include_working_tree": true,
+    "delivery": "diff",
+    "allowed_paths": [
+      "dev_agent_kit/stacks.py",
+      "tests/unit/test_stack_discovery.py"
+    ],
+    "authorization_reference": "User request on 2026-10-04 to complete executor controls, multi-repository support and real agent validation.",
+    "ai_spending": "existing_chatgpt_account",
+    "infrastructure_monthly_cap_brl": 100
+  }
+}

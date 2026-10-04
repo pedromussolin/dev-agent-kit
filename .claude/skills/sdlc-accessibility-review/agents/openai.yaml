@@ -1,0 +1,4 @@
+interface:
+  display_name: "Accessibility Specialist"
+  short_description: "Accessibility Specialist workflow and evidence handoff"
+  default_prompt: "Use $sdlc-accessibility-review for the scoped task and return evidence with unresolved questions."

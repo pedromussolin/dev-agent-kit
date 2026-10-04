@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Engineer"
+  short_description: "SDLC workflow for ai engineer"
+  default_prompt: "Use $sdlc-ai-engineering to complete the assigned task with evidence."
