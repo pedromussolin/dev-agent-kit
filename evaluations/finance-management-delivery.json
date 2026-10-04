@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "evaluation_date": "2026-10-04",
+  "status": "succeeded",
+  "run_id": "1c7a8147985a480699f8172fdd891d60",
+  "task_id": "finance-request-boundaries-issue-2",
+  "repository": "pedromussolin/finance-management",
+  "repository_visibility": "private",
+  "actions_revision": "3f4cfeb8a0e363d237dd6d117d7422b941189667",
+  "kit_revision": "ab4c21894e61e3aca09575cf237e50a154955478",
+  "github_run_url": "https://github.com/pedromussolin/finance-management/actions/runs/37209242337",
+  "pull_request_url": "https://github.com/pedromussolin/finance-management/pull/4",
+  "published_commit": "8acfd6559df9f1c1191778e8c351b6f6bc7355ef",
+  "merged_commit": "e4410a9a969ab41cc0036a71aba83c4a490ec63d",
+  "base_revision": "9c539cfa05e89609cbbe7654e8a7ef729b2b74dc",
+  "verified_fingerprint": "0b12f38576527459d6d7427866df276bc088637eff1a85bc692cbe2cea5e6123",
+  "agent_calls": 3,
+  "attempts": 1,
+  "assignments": [
+    {
+      "role_id": "developer",
+      "status": "succeeded",
+      "verdict": "completed",
+      "revision_fingerprint": "0b12f38576527459d6d7427866df276bc088637eff1a85bc692cbe2cea5e6123",
+      "usage": {
+        "input_tokens": 79880,
+        "cached_input_tokens": 68992,
+        "output_tokens": 1811,
+        "reasoning_output_tokens": 571,
+        "total_tokens": 81691
+      },
+      "model": "gpt-6.1-sol",
+      "sandbox": "workspaceWrite",
+      "duration_seconds": 72.11561577200337,
+      "blocking_findings": []
+    },
+    {
+      "role_id": "qa-engineer",
+      "status": "succeeded",
+      "verdict": "completed",
+      "revision_fingerprint": "0b12f38576527459d6d7427866df276bc088637eff1a85bc692cbe2cea5e6123",
+      "usage": {
+        "input_tokens": 64598,
+        "cached_input_tokens": 41472,
+        "output_tokens": 1562,
+        "reasoning_output_tokens": 386,
+        "total_tokens": 66160
+      },
+      "model": "gpt-6.1-sol",
+      "sandbox": "readOnly",
+      "duration_seconds": 61.52573838100216,
+      "blocking_findings": []
+    },
+    {
+      "role_id": "technical-reviewer",
+      "status": "succeeded",
+      "verdict": "completed",
+      "revision_fingerprint": "0b12f38576527459d6d7427866df276bc088637eff1a85bc692cbe2cea5e6123",
+      "usage": {
+        "input_tokens": 82975,
+        "cached_input_tokens": 59008,
+        "output_tokens": 1584,
+        "reasoning_output_tokens": 390,
+        "total_tokens": 84559
+      },
+      "model": "gpt-6.1-sol",
+      "sandbox": "readOnly",
+      "duration_seconds": 58.80481990500266,
+      "blocking_findings": []
+    }
+  ],
+  "budget": {
+    "project_calls_today": 3,
+    "project_tokens_today": 232410,
+    "run_tokens": 232410,
+    "unknown_usage_invocations": 0,
+    "day_utc": "2026-10-04"
+  },
+  "cost_brl": null,
+  "cost_status": "unknown",
+  "checks": [
+    {
+      "name": "dependencies",
+      "exit_code": 0
+    },
+    {
+      "name": "unit",
+      "exit_code": 0
+    },
+    {
+      "name": "types",
+      "exit_code": 0
+    },
+    {
+      "name": "build",
+      "exit_code": 0
+    }
+  ],
+  "remote_checks": [
+    {
+      "name": "test / checks",
+      "event": "push",
+      "run_id": 37209565870,
+      "conclusion": "success"
+    },
+    {
+      "name": "test / checks",
+      "event": "pull_request",
+      "run_id": 37209569439,
+      "conclusion": "success"
+    }
+  ],
+  "deployment": {
+    "environment": "local-docker",
+    "status": "succeeded",
+    "smoke": "passed",
+    "backup_integrity": "passed",
+    "accepted_image": "finance-management-local:09b8ecf6e5e7144f"
+  },
+  "artifacts": {
+    "report_sha256": "84ba759c86f5d2b13dca45e5f647cb5b7c12841317b8e51747e63cc4d5f15e10",
+    "patch_sha256": "52c79b7dd919fe4523bc289d4b769e931773d65a5e055579765b0af71d6cf04b"
+  },
+  "limitations": [
+    "Only developer, QA and technical reviewer executed live in this case.",
+    "Observed token thresholds can overshoot during an in-flight request; billing remains unknown.",
+    "No like-for-like quality-preserving savings comparison is established.",
+    "Image rollback preserves the database volume and does not reverse migrations.",
+    "Runners are user processes that must be restarted after reboot.",
+    "Issue #2 was closed by the operator after successful delivery."
+  ],
+  "rollback_rehearsal": {
+    "operator_executed": true,
+    "previous_image": "finance-management-local:212d0bc0419691ef",
+    "rollback": "passed",
+    "previous_image_authenticated_smoke": "passed",
+    "redeploy_accepted_source": "passed",
+    "final_authenticated_smoke": "passed",
+    "database_volume_retained": true,
+    "migration_reversal": false,
+    "final_image_id": "sha256:2031e8a9c191588ca86bb29e8881a40b04cd34f5ada87455f39266948af27f56"
+  }
+}

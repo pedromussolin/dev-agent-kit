@@ -2,6 +2,17 @@
 
 **Languages:** English | [Português (Brasil)](../pt-br/agent-validation.md)
 
+## Private product delivery acceptance
+
+The [product evaluation](../../evaluations/finance-management-delivery.json) records
+the real private finance-management task: developer, seven product tests,
+TypeScript/build, independent QA/review, PR #4, both required CI checks, matched-head
+merge and authenticated local Docker smoke all passed. The three roles reported
+232,410 observed tokens against a 250,000 run threshold, with no retry. Each stayed
+below its 100,000 role threshold. Monetary cost remains unknown. This verifies
+the scoped GitHub delivery path; it does not certify the other 23 roles, provider
+billing limits, Claude/Copilot runtime or autonomous meeting/backlog scheduling.
+
 ## Version 0.2 code task and limits
 
 The [code evaluation](../../evaluations/codex-actions-code-task.json) records the
@@ -23,8 +34,7 @@ remain failed/cancelled in SQLite. No failure was relabeled as a successful task
 The current kit suite has 68 passing tests, including actual Git/deploy processes
 with controlled GitHub I/O, real protocol subprocess interruption and HTTP/SSE
 monitoring. Stack discovery's 12 tests pass; the interrupted broad stack task is
-not presented as a completed three-role evaluation. Hosted GitHub delivery, other
-23 live roles and provider billing hard caps remain unevaluated.
+not presented as a completed three-role evaluation. The other 23 live roles and provider billing hard caps remain unevaluated.
 
 The following sections preserve the v0.1 evaluation. Their 31-test count and
 limitations describe that original runtime. Historical success resumes require
@@ -110,3 +120,8 @@ worktree, baseline and provider artifacts. The JSON evaluation also stores hashe
 of the approved guide files. The run ID requires that retained local state; it is
 not portable execution state. A different machine needs its own real task record.
 See the [operating guide](local-executor.md) for setup and recovery boundaries.
+
+After successful executor delivery, an operator rehearsal restored the previous
+image, passed authenticated smoke, redeployed the accepted source and passed
+smoke again. The named database volume remained attached; database migrations
+were not reversed. Private online backup integrity passed before redeployment.

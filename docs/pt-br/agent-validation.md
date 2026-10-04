@@ -2,6 +2,17 @@
 
 **Idiomas:** [English](../en/agent-validation.md) | Português (Brasil)
 
+## Aceite da entrega do produto privado
+
+A [avaliação do produto](../../evaluations/finance-management-delivery.json) registra
+a tarefa real do finance-management privado: desenvolvedor, sete testes do produto,
+TypeScript/build, QA/revisor independentes, PR #4, ambos os checks de CI, merge
+vinculado ao HEAD e smoke autenticado no Docker local passaram. Os três papéis
+reportaram 232.410 tokens observados para um limite de 250.000, sem retentativa;
+cada um ficou abaixo de 100.000. Custo monetário permanece desconhecido. O caso
+valida esse caminho de entrega GitHub; não certifica os outros 23 papéis, limites
+de cobrança, execução Claude/Copilot ou reuniões e backlog autônomos.
+
 ## Código e limites na versão 0.2
 
 A [avaliação de código](../../evaluations/codex-actions-code-task.json) registra
@@ -24,8 +35,7 @@ como sucesso.
 O kit atual passou 68 testes, incluindo Git/deploy reais com I/O GitHub controlada,
 interrupção de subprocessos do protocolo e monitoramento HTTP/SSE. Os 12 testes de
 descoberta de stacks passam; a tarefa ampla interrompida não é apresentada como
-avaliação concluída pelos três papéis. Entrega no GitHub hospedado, os outros
-23 papéis ao vivo e tetos financeiros do provedor ainda não foram avaliados.
+avaliação concluída pelos três papéis. Os outros 23 papéis ao vivo e tetos financeiros do provedor ainda não foram avaliados.
 
 As seções seguintes preservam a avaliação v0.1. A contagem de 31 testes e seus
 limites descrevem aquele runtime. Retomar sucessos históricos exige os fingerprints
@@ -111,3 +121,8 @@ baseline e artefatos do provedor. O JSON da avaliação também guarda hashes do
 guias aprovados. Esse ID exige o estado local preservado, sem transportar execução
 para outra máquina; lá será necessário um registro real próprio.
 Consulte o [guia operacional](local-executor.md) para instalação e limites da recuperação.
+
+Depois da entrega do executor, um ensaio operacional restaurou a imagem anterior,
+passou no smoke autenticado, refez o deploy do código aceito e passou novamente
+no smoke. O volume nomeado do banco foi preservado; migrations não foram
+revertidas. A integridade do backup privado foi verificada antes do redeploy.

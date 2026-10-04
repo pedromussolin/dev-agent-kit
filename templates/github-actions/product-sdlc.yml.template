@@ -7,12 +7,12 @@ permissions:
   contents: read
 jobs:
   execute:
-    uses: pedromussolin/actions/.github/workflows/sdlc-executor.yml@9fda5717130c1ea237beb6e7aa98b80726133ea2
+    uses: pedromussolin/actions/.github/workflows/sdlc-executor.yml@3f4cfeb8a0e363d237dd6d117d7422b941189667
     with:
-      actions-revision: 9fda5717130c1ea237beb6e7aa98b80726133ea2
-      kit-revision: <PUBLISHED_KIT_COMMIT_SHA>
+      actions-revision: 3f4cfeb8a0e363d237dd6d117d7422b941189667
+      kit-revision: ab4c21894e61e3aca09575cf237e50a154955478
       task-file: ${{ inputs.task-file }}
-      node-version: '22'
+      node-version: '24.21.0'
       prepare-checks-file: .github/checks/prepare.json
     secrets:
       DELIVERY_TOKEN: ${{ secrets.SDLC_DELIVERY_TOKEN }}
